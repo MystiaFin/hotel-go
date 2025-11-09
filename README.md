@@ -43,7 +43,7 @@ mvn clean compile
 Run the project:
 
 ```bash
-mvn exec:java -Dexec.mainClass="com.hotelgo.App"
+mvn exec:java
 ```
 
 Or package into a JAR and run:
