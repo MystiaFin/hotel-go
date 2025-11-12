@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
+
+  <changeSet id="004-create-booked-histories-table" author="hotelgo">
+    <createTable tableName="booked_histories">
+      <column name="id" type="BIGINT" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+        <constraints nullable="false" />
+      </column>
+      <column name="booked_by" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+      <column name="room_id" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+      <column name="checkin_date" type="DATE">
+        <constraints nullable="false" />
+      </column>
+      <column name="checkout_date" type="DATE">
+        <constraints nullable="false" />
+      </column>
+      <column name="booked_status" type="VARCHAR(20)">
+        <constraints nullable="false" />
+      </column>
+      <column name="expiration_date" type="DATE">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+
+    <!-- Foreign key constraints -->
+    <addForeignKeyConstraint
+      baseTableName="booked_histories"
+      baseColumnNames="booked_by"
+      constraintName="fk_booked_histories_user"
+      referencedTableName="user"
+      referencedColumnNames="id"
+      onDelete="CASCADE"
+      onUpdate="CASCADE" />
+
+    <addForeignKeyConstraint
+      baseTableName="booked_histories"
+      baseColumnNames="room_id"
+      constraintName="fk_booked_histories_hotel_rooms"
+      referencedTableName="hotel_rooms"
+      referencedColumnNames="id"
+      onDelete="CASCADE"
+      onUpdate="CASCADE" />
+
+    <!-- Indexes for performance -->
+    <createIndex indexName="idx_booked_histories_booked_by" tableName="booked_histories">
+      <column name="booked_by" />
+    </createIndex>
+
+    <createIndex indexName="idx_booked_histories_room_id" tableName="booked_histories">
+      <column name="room_id" />
+    </createIndex>
+
+    <createIndex indexName="idx_booked_histories_status" tableName="booked_histories">
+      <column name="booked_status" />
+    </createIndex>
+
+    <createIndex indexName="idx_booked_histories_dates" tableName="booked_histories">
+      <column name="checkin_date" />
+      <column name="checkout_date" />
+    </createIndex>
+
+    <!-- Add check constraint for booked_status enum values -->
+    <sql> ALTER TABLE booked_histories ADD CONSTRAINT chk_booked_status CHECK (booked_status IN
+      ('PENDING', 'ACTIVE', 'CANCELLED', 'EXPIRED')) </sql>
+
+    <!-- Add check constraint to ensure checkout_date is after checkin_date -->
+    <sql> ALTER TABLE booked_histories ADD CONSTRAINT chk_checkout_after_checkin CHECK
+      (checkout_date > checkin_date) </sql>
+  </changeSet>
+
+</databaseChangeLog>

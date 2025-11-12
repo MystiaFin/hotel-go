@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
+
+  <changeSet id="003-create-hotel-rooms-table" author="hotelgo">
+    <createTable tableName="hotel_rooms">
+      <column name="id" type="BIGINT" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+        <constraints nullable="false" />
+      </column>
+      <column name="room_id" type="VARCHAR(100)">
+        <constraints nullable="false" />
+      </column>
+      <column name="hotel_id" type="BIGINT">
+        <constraints nullable="false" />
+      </column>
+      <column name="price" type="DECIMAL(10,2)">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+
+    <!-- Foreign key constraint -->
+    <addForeignKeyConstraint
+      baseTableName="hotel_rooms"
+      baseColumnNames="hotel_id"
+      constraintName="fk_hotel_rooms_hotel"
+      referencedTableName="hotel"
+      referencedColumnNames="id"
+      onDelete="CASCADE"
+      onUpdate="CASCADE" />
+
+    <!-- Indexes -->
+    <createIndex indexName="idx_hotel_rooms_hotel_id" tableName="hotel_rooms">
+      <column name="hotel_id" />
+    </createIndex>
+
+    <createIndex indexName="idx_hotel_rooms_room_id" tableName="hotel_rooms">
+      <column name="room_id" />
+    </createIndex>
+  </changeSet>
+
+</databaseChangeLog>
