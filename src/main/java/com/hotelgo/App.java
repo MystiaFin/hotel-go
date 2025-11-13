@@ -3,6 +3,8 @@ package com.hotelgo;
 import static spark.Spark.*;
 
 import com.hotelgo.config.DatabaseConfig;
+import com.hotelgo.controller.AuthController;
+import com.hotelgo.controller.PageController;
 
 public class App {
   public static void main(String[] args) {
@@ -17,10 +19,10 @@ public class App {
       System.exit(1);
     }
 
-    // Configure Spark
     port(4567);
 
-    // Basic route for testing
+    staticFiles.location("/public");
+
     get(
         "/",
         (req, res) -> {
@@ -28,13 +30,8 @@ public class App {
           return "{\"message\": \"HotelGo API is running!\", \"status\": \"success\"}";
         });
 
-    // Health check endpoint
-    get(
-        "/health",
-        (req, res) -> {
-          res.type("application/json");
-          return "{\"status\": \"healthy\", \"database\": \"connected\"}";
-        });
+    PageController.initRoutes();
+    AuthController.initRoutes();
 
     System.out.println("HotelGo application started successfully on http://localhost:4567");
   }
