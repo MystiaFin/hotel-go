@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
+
+  <changeSet id="005-seed-initial-data" author="hotelgo">
+    <!-- Seed Users -->
+    <insert tableName="user">
+      <column name="username" value="admin" />
+      <column name="email" value="admin@hotelgo.com" />
+      <column name="password" value="$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy" /> <!--
+      hashed: admin123 -->
+    </insert>
+
+    <insert tableName="user">
+      <column name="username" value="john_doe" />
+      <column name="email" value="john@example.com" />
+      <column name="password" value="$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy" />
+    </insert>
+
+    <insert tableName="user">
+      <column name="username" value="jane_smith" />
+      <column name="email" value="jane@example.com" />
+      <column name="password" value="$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy" />
+    </insert>
+
+    <!-- Seed Hotels -->
+    <insert tableName="hotel">
+      <column name="name" value="Grand Plaza Hotel" />
+    </insert>
+
+    <insert tableName="hotel">
+      <column name="name" value="Seaside Resort" />
+    </insert>
+
+    <insert tableName="hotel">
+      <column name="name" value="Mountain View Lodge" />
+    </insert>
+
+    <!-- Seed Hotel Rooms for Grand Plaza Hotel (ID: 1) -->
+    <insert tableName="hotel_rooms">
+      <column name="room_id" value="GP-101" />
+      <column name="hotel_id" valueNumeric="1" />
+      <column name="price" valueNumeric="150.00" />
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="room_id" value="GP-102" />
+      <column name="hotel_id" valueNumeric="1" />
+      <column name="price" valueNumeric="150.00" />
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="room_id" value="GP-201" />
+      <column name="hotel_id" valueNumeric="1" />
+      <column name="price" valueNumeric="200.00" />
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="room_id" value="GP-202" />
+      <column name="hotel_id" valueNumeric="1" />
+      <column name="price" valueNumeric="200.00" />
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="room_id" value="GP-301" />
+      <column name="hotel_id" valueNumeric="1" />
+      <column name="price" valueNumeric="300.00" />
+    </insert>
+
+    <!-- Seed Hotel Rooms for Seaside Resort (ID: 2) -->
+    <insert tableName="hotel_rooms">
+      <column name="room_id" value="SR-A1" />
+      <column name="hotel_id" valueNumeric="2" />
+      <column name="price" valueNumeric="250.00" />
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="room_id" value="SR-A2" />
+      <column name="hotel_id" valueNumeric="2" />
+      <column name="price" valueNumeric="250.00" />
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="room_id" value="SR-B1" />
+      <column name="hotel_id" valueNumeric="2" />
+      <column name="price" valueNumeric="350.00" />
+    </insert>
+
+    <!-- Seed Hotel Rooms for Mountain View Lodge (ID: 3) -->
+    <insert tableName="hotel_rooms">
+      <column name="room_id" value="MV-CABIN-1" />
+      <column name="hotel_id" valueNumeric="3" />
+      <column name="price" valueNumeric="180.00" />
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="room_id" value="MV-CABIN-2" />
+      <column name="hotel_id" valueNumeric="3" />
+      <column name="price" valueNumeric="180.00" />
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="room_id" value="MV-SUITE-1" />
+      <column name="hotel_id" valueNumeric="3" />
+      <column name="price" valueNumeric="280.00" />
+    </insert>
+
+    <!-- Seed Sample Bookings -->
+    <insert tableName="booked_histories">
+      <column name="booked_by" valueNumeric="2" /> <!-- john_doe -->
+      <column name="room_id" valueNumeric="1" /> <!-- GP-101 -->
+      <column name="checkin_date" valueDate="2025-12-20" />
+      <column name="checkout_date" valueDate="2025-12-25" />
+      <column name="booked_status" value="ACTIVE" />
+      <column name="expiration_date" valueDate="2025-12-19" />
+    </insert>
+
+    <insert tableName="booked_histories">
+      <column name="booked_by" valueNumeric="3" /> <!-- jane_smith -->
+      <column name="room_id" valueNumeric="6" /> <!-- SR-A1 -->
+      <column name="checkin_date" valueDate="2025-11-15" />
+      <column name="checkout_date" valueDate="2025-11-20" />
+      <column name="booked_status" value="ACTIVE" />
+      <column name="expiration_date" valueDate="2025-11-14" />
+    </insert>
+
+    <insert tableName="booked_histories">
+      <column name="booked_by" valueNumeric="2" /> <!-- john_doe -->
+      <column name="room_id" valueNumeric="9" /> <!-- MV-CABIN-1 -->
+      <column name="checkin_date" valueDate="2025-11-10" />
+      <column name="checkout_date" valueDate="2025-11-12" />
+      <column name="booked_status" value="PENDING" />
+      <column name="expiration_date" valueDate="2025-11-13" />
+    </insert>
+  </changeSet>
+
+</databaseChangeLog>
