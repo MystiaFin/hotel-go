@@ -1,0 +1,5 @@
+FROM maven:3.8-openjdk-17
+WORKDIR /app
+EXPOSE 4567
+# Don't copy anything - we'll mount it with volumes
+CMD ["mvn", "compile", "exec:java"]

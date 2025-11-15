@@ -2,14 +2,21 @@ package com.hotelgo;
 
 import static spark.Spark.*;
 
+// Necessary utils imports
 import com.hotelgo.config.DatabaseConfig;
+import com.hotelgo.config.ThymeleafConfig;
+import com.hotelgo.config.ThymeleafTemplateEngine;
+
+// Route imports
+import com.hotelgo.routes.ClientRoutes;
 
 public class App {
+
   public static void main(String[] args) {
-    // Run database migrations first
     System.out.println("Starting HotelGo application...");
     System.out.println("Running database migrations...");
 
+    // Running database migrations and seeding
     try {
       DatabaseConfig.runMigrations();
     } catch (Exception e) {
@@ -17,25 +24,12 @@ public class App {
       System.exit(1);
     }
 
-    // Configure Spark
     port(4567);
+    staticFiles.location("/static");
 
-    // Basic route for testing
-    get(
-        "/",
-        (req, res) -> {
-          res.type("application/json");
-          return "{\"message\": \"HotelGo API is running!\", \"status\": \"success\"}";
-        });
+    ThymeleafTemplateEngine engine = ThymeleafConfig.createTemplateEngine();
+    ClientRoutes.configure(engine);
 
-    // Health check endpoint
-    get(
-        "/health",
-        (req, res) -> {
-          res.type("application/json");
-          return "{\"status\": \"healthy\", \"database\": \"connected\"}";
-        });
-
-    System.out.println("HotelGo application started successfully on http://localhost:4567");
+    System.out.println("HotelGo application started on http://localhost:4567");
   }
 }

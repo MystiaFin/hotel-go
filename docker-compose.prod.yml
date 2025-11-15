@@ -3,12 +3,12 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.dev  # Use dev dockerfile
     ports:
       - "4567:4567"
     environment:
-      - DB_HOST=db
-      - DB_PORT=3306
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
@@ -17,10 +17,15 @@ services:
         condition: service_healthy
     networks:
       - app-network
+    restart: on-failure
     volumes:
-      - .:/app
-      - maven-cache:/root/.m2
-    command: sh -c "mvn dependency:go-offline && mvn compile exec:java"
+      # Mount source code for hot reload
+      - ./src:/app/src
+      - ./pom.xml:/app/pom.xml
+      # Use named volume for Maven cache to speed up builds
+      - maven-repo:/root/.m2
+    stdin_open: true
+    tty: true
 
   db:
     image: mysql:8.0
@@ -48,4 +53,6 @@ networks:
 
 volumes:
   mysql-data:
-  maven-cache:
+    driver: local
+  maven-repo:
+    driver: local
