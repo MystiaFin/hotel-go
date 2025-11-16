@@ -5,10 +5,10 @@
 >
   <head>
     <title th:text="${title}">My Site</title>
+    <link rel="stylesheet" href="/css/main.css" />
   </head>
   <body>
     <div th:replace="~{components/navbar :: navbar}"></div>
-    hello from layout
     <main>
       <div layout:fragment="content"></div>
     </main>

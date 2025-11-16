@@ -15,7 +15,7 @@ public class ClientRoutes {
         (req, res) -> {
           HashMap<String, Object> model = new HashMap<>();
           model.put("title", "Home Page");
-          return engine.render(new ModelAndView(model, "pages/home"));
+          return engine.render(new ModelAndView(model, "pages/client/home"));
         });
 
     get(

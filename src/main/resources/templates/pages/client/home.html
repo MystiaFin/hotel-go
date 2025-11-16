@@ -8,7 +8,9 @@
   </head>
   <body>
     <div layout:fragment="content">
-      <h1>Home</h1>
+      <div
+        th:replace="~{components/heading-main :: headingMain('Welcome!')}"
+      ></div>
     </div>
   </body>
 </html>
