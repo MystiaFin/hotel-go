@@ -9,5 +9,6 @@
   <include file="db/changelog/changes/002-create-hotel-table.xml" />
   <include file="db/changelog/changes/003-create-hotel-rooms-table.xml" />
   <include file="db/changelog/changes/004-create-booked-histories-table.xml" />
+  <include file="db/changelog/changes/005-seed-initial-data.xml" />
 
 </databaseChangeLog>

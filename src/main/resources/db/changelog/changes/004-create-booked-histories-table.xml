@@ -9,35 +9,30 @@
       <column name="id" type="BIGINT" autoIncrement="true">
         <constraints primaryKey="true" nullable="false" />
       </column>
-      <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
-        <constraints nullable="false" />
-      </column>
-      <column name="booked_by" type="BIGINT">
-        <constraints nullable="false" />
-      </column>
       <column name="room_id" type="BIGINT">
-        <constraints nullable="false" />
+        <constraints nullable="false"/>
       </column>
-      <column name="checkin_date" type="DATE">
-        <constraints nullable="false" />
+      <column name="user_id" type="BIGINT">
+        <constraints nullable="false"/>
       </column>
-      <column name="checkout_date" type="DATE">
-        <constraints nullable="false" />
+      <column name="booked_status" type="VARCHAR(20)"/>
+      <column name="checkin_date" type="DATE"/>
+      <column name="checkout_date" type="DATE"/>
+      <column name="expiration_date" type="TIMESTAMP"/>
+      <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+        <constraints nullable="false"/>
       </column>
-      <column name="booked_status" type="VARCHAR(20)">
-        <constraints nullable="false" />
-      </column>
-      <column name="expiration_date" type="DATE">
-        <constraints nullable="false" />
+      <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+        <constraints nullable="false"/>
       </column>
     </createTable>
 
     <!-- Foreign key constraints -->
     <addForeignKeyConstraint
       baseTableName="booked_histories"
-      baseColumnNames="booked_by"
-      constraintName="fk_booked_histories_user"
-      referencedTableName="user"
+      baseColumnNames="user_id"
+      constraintName="fk_booked_histories_users"
+      referencedTableName="users"
       referencedColumnNames="id"
       onDelete="CASCADE"
       onUpdate="CASCADE" />
@@ -52,8 +47,8 @@
       onUpdate="CASCADE" />
 
     <!-- Indexes for performance -->
-    <createIndex indexName="idx_booked_histories_booked_by" tableName="booked_histories">
-      <column name="booked_by" />
+    <createIndex indexName="idx_booked_histories_user_id" tableName="booked_histories">
+      <column name="user_id" />
     </createIndex>
 
     <createIndex indexName="idx_booked_histories_room_id" tableName="booked_histories">

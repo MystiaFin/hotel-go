@@ -4,11 +4,9 @@ import static spark.Spark.*;
 
 // Necessary utils imports
 import com.hotelgo.config.DatabaseConfig;
-import com.hotelgo.config.ThymeleafConfig;
-import com.hotelgo.config.ThymeleafTemplateEngine;
 
 // Route imports
-import com.hotelgo.routes.ClientRoutes;
+import com.hotelgo.routes.Routes;
 
 public class App {
 
@@ -27,8 +25,9 @@ public class App {
 		port(4567);
 		staticFiles.location("/static");
 
-		ThymeleafTemplateEngine engine = ThymeleafConfig.createTemplateEngine();
-		ClientRoutes.configure(engine);
+		staticFiles.location("/public");
+
+		Routes.init();
 
 		System.out.println("HotelGo application started on http://localhost:4567");
 	}
