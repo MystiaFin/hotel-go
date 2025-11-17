@@ -1,0 +1,33 @@
+.navbar {
+	padding: 0.8rem;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	background-color: var(--color-primary);
+	height: 100vh;
+	color: var(--color-base);
+}
+
+.navbar .navbar-links {
+	display: flex;
+	flex-direction: column;
+	gap: 1.2rem;
+}
+
+.navbar .navbar-links a {
+	padding: 0.8rem;
+	color: var(--color-base);
+	text-decoration: none;
+	font-size: 1.4rem;
+	font-weight: 600;
+	border-radius: 6px;
+}
+
+.navbar .navbar-links a:hover {
+	background-color: var(--color-secondary);
+	cursor: pointer;
+}
+
+.navbar button {
+	padding: 1rem;
+}

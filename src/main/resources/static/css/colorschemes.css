@@ -1,8 +1,7 @@
 :root {
-  --color-base: #eff1f5;
-  --color-overlay-1: #ccd0da;
-  --color-overlay-2: #e6e9ef;
-  --primary-red: #d20f39;
-  --primary-blue: #40a02b;
-  --text-primary: #6c6f85;
+  --color-base: #eceff4;
+  --color-overlay-1: #e5e9f0;
+  --color-overlay-2: #d8dee9;
+  --color-primary: #2e3440;
+	--color-secondary: #434c5e;
 }
