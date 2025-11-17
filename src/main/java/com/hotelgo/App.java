@@ -1,15 +1,13 @@
 package com.hotelgo;
 
 import static spark.Spark.*;
-
-// Necessary utils imports
 import com.hotelgo.config.DatabaseConfig;
-
-// Route imports
-import com.hotelgo.routes.Routes;
+import com.hotelgo.config.ThymeleafConfig;
+import com.hotelgo.config.ThymeleafTemplateEngine;
+import com.hotelgo.routes.ViewRoutes;
+import com.hotelgo.routes.ApiRoutes;
 
 public class App {
-
 	public static void main(String[] args) {
 		System.out.println("Starting HotelGo application...");
 		System.out.println("Running database migrations...");
@@ -25,9 +23,12 @@ public class App {
 		port(4567);
 		staticFiles.location("/static");
 
-		staticFiles.location("/public");
+		// Create template engine
+		ThymeleafTemplateEngine engine = ThymeleafConfig.createTemplateEngine();
 
-		Routes.init();
+		// Configure routes - pass engine to ViewRoutes
+		ViewRoutes.configure(engine);
+		ApiRoutes.configure();
 
 		System.out.println("HotelGo application started on http://localhost:4567");
 	}
