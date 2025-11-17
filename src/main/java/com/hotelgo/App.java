@@ -4,8 +4,7 @@ import static spark.Spark.*;
 import com.hotelgo.config.DatabaseConfig;
 import com.hotelgo.config.ThymeleafConfig;
 import com.hotelgo.config.ThymeleafTemplateEngine;
-import com.hotelgo.routes.ViewRoutes;
-import com.hotelgo.routes.ApiRoutes;
+import com.hotelgo.routes.Routes;
 
 public class App {
 	public static void main(String[] args) {
@@ -26,9 +25,7 @@ public class App {
 		// Create template engine
 		ThymeleafTemplateEngine engine = ThymeleafConfig.createTemplateEngine();
 
-		// Configure routes - pass engine to ViewRoutes
-		ViewRoutes.configure(engine);
-		ApiRoutes.configure();
+		Routes.init();
 
 		System.out.println("HotelGo application started on http://localhost:4567");
 	}
