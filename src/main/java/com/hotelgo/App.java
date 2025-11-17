@@ -2,8 +2,6 @@ package com.hotelgo;
 
 import static spark.Spark.*;
 import com.hotelgo.config.DatabaseConfig;
-import com.hotelgo.config.ThymeleafConfig;
-import com.hotelgo.config.ThymeleafTemplateEngine;
 import com.hotelgo.routes.Routes;
 
 public class App {
@@ -21,9 +19,6 @@ public class App {
 
 		port(4567);
 		staticFiles.location("/static");
-
-		// Create template engine
-		ThymeleafTemplateEngine engine = ThymeleafConfig.createTemplateEngine();
 
 		Routes.init();
 
