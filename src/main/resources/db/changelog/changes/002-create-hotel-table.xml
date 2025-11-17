@@ -5,19 +5,25 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
 
   <changeSet id="002-create-hotel-table" author="hotelgo">
-    <createTable tableName="hotel">
+    <createTable tableName="hotels">
       <column name="id" type="BIGINT" autoIncrement="true">
         <constraints primaryKey="true" nullable="false" />
-      </column>
-      <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
-        <constraints nullable="false" />
       </column>
       <column name="name" type="VARCHAR(255)">
         <constraints nullable="false" />
       </column>
+      <column name="location" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+        <constraints nullable="false" />
+      </column>
+      <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+        <constraints nullable="false"/>
+      </column>
     </createTable>
 
-    <createIndex indexName="idx_hotel_name" tableName="hotel">
+    <createIndex indexName="idx_hotels_name" tableName="hotels">
       <column name="name" />
     </createIndex>
   </changeSet>

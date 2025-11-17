@@ -9,17 +9,20 @@
       <column name="id" type="BIGINT" autoIncrement="true">
         <constraints primaryKey="true" nullable="false" />
       </column>
-      <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
-        <constraints nullable="false" />
-      </column>
-      <column name="room_id" type="VARCHAR(100)">
-        <constraints nullable="false" />
-      </column>
       <column name="hotel_id" type="BIGINT">
-        <constraints nullable="false" />
+        <constraints nullable="false"/>
       </column>
-      <column name="price" type="DECIMAL(10,2)">
-        <constraints nullable="false" />
+      <column name="room_number" type="VARCHAR(50)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="price" type="DECIMAL(12,2)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+        <constraints nullable="false"/>
+      </column>
+      <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+        <constraints nullable="false"/>
       </column>
     </createTable>
 
@@ -28,7 +31,7 @@
       baseTableName="hotel_rooms"
       baseColumnNames="hotel_id"
       constraintName="fk_hotel_rooms_hotel"
-      referencedTableName="hotel"
+      referencedTableName="hotels"
       referencedColumnNames="id"
       onDelete="CASCADE"
       onUpdate="CASCADE" />
@@ -38,8 +41,8 @@
       <column name="hotel_id" />
     </createIndex>
 
-    <createIndex indexName="idx_hotel_rooms_room_id" tableName="hotel_rooms">
-      <column name="room_id" />
+    <createIndex indexName="idx_hotel_rooms_room_number" tableName="hotel_rooms">
+      <column name="room_number" />
     </createIndex>
   </changeSet>
 
