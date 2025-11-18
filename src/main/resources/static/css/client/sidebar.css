@@ -1,5 +1,6 @@
-.navbar {
+.sidebar {
 	padding: 0.8rem;
+	width: 20%;
 	display: flex;
 	justify-content: space-between;
 	flex-direction: column;
@@ -8,14 +9,21 @@
 	color: var(--color-base);
 }
 
-.navbar .navbar-links {
-	display: flex;
-	flex-direction: column;
-	gap: 1.2rem;
+.sidebar-logo {
+	margin-top: 0.8rem;
 }
 
-.navbar .navbar-links a {
-	padding: 0.8rem;
+.sidebar .sidebar-links {
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+}
+
+.sidebar .sidebar-links a {
+	padding-left: 0.8rem;
+	padding-right: 0.8rem;
+	padding-top: 1.2rem;
+	padding-bottom: 1.2rem;
 	color: var(--color-base);
 	text-decoration: none;
 	font-size: 1.4rem;
@@ -23,11 +31,15 @@
 	border-radius: 6px;
 }
 
-.navbar .navbar-links a:hover {
+.sidebar .sidebar-links a:hover {
 	background-color: var(--color-secondary);
 	cursor: pointer;
 }
 
-.navbar button {
+.sidebar-links a.active {
+	background-color: var(--color-secondary);
+}
+
+.sidebar button {
 	padding: 1rem;
 }

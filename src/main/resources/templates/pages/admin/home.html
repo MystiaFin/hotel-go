@@ -1,0 +1,16 @@
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/admin}"
+>
+  <head>
+    <title>Home</title>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <div
+        th:replace="~{components/heading-main :: headingMain('Welcome!')}"
+      ></div>
+    </div>
+  </body>
+</html>

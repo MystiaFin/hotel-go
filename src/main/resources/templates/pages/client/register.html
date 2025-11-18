@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Register</title>
+	<title>Register</title>
+	<link rel="stylesheet" href="/css/main.css" />
 </head>
-<body>
-<h2>Register</h2>
-<form action="/api/user/register" method="post">
-    <label>Nama:</label><br>
-    <input type="text" name="nama" required><br>
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br>
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br>
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
-    <button type="submit">Register</button>
-</form>
-<a href="/login">Login</a>
+
+<body class="form-body">
+	<main class="form-container">
+		<form action="/api/user/register" method="post" class="form-main">
+			<h1>Register</h1>
+			<div class="input-label">
+				<label>Nama:</label><br>
+				<input type="text" name="nama" required><br>
+			</div>
+			<div class="input-label">
+				<label>Email:</label><br>
+				<input type="email" name="email" required><br>
+			</div>
+			<div class="input-label">
+				<label>Username:</label><br>
+				<input type="text" name="username" required><br>
+			</div>
+			<div class="input-label">
+				<label>Password:</label><br>
+				<input type="password" name="password" required><br><br>
+			</div>
+			<button type="submit" class="btn btn-confirm w-full">Register</button>
+			<span>-or-</span>
+			<a href="/login" class="btn btn-confirm w-full">Login</a>
+		</form>
+	</main>
 </body>
+
 </html>

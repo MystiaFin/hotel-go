@@ -2,10 +2,7 @@ package com.hotelgo;
 
 import static spark.Spark.*;
 import com.hotelgo.config.DatabaseConfig;
-import com.hotelgo.config.ThymeleafConfig;
-import com.hotelgo.config.ThymeleafTemplateEngine;
-import com.hotelgo.routes.ViewRoutes;
-import com.hotelgo.routes.ApiRoutes;
+import com.hotelgo.routes.Routes;
 import com.hotelgo.scheduler.BookingScheduler;
 
 public class App {
@@ -24,15 +21,8 @@ public class App {
 		port(4567);
 		staticFiles.location("/static");
 
-		// Create template engine
-		ThymeleafTemplateEngine engine = ThymeleafConfig.createTemplateEngine();
-
-		// Configure routes - pass engine to ViewRoutes
-		ViewRoutes.configure(engine);
-		ApiRoutes.configure();
-
-        // Scheduler update status booking EXPIRED
-        BookingScheduler.start();
+		Routes.init();
+		BookingScheduler.start();
 		System.out.println("HotelGo application started on http://localhost:4567");
 	}
 }

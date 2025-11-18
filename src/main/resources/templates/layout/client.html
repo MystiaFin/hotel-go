@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/main.css" />
   </head>
   <body>
-    <div th:replace="~{components/sidebar :: navbar}"></div>
+    <div th:replace="~{components/sidebar :: sidebar(${navLinks}, ${currentPath})}"></div>
     <main>
       <div layout:fragment="content"></div>
     </main>
