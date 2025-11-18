@@ -3,10 +3,18 @@ package com.hotelgo.controller.Views;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import com.hotelgo.model.User;
+import com.hotelgo.service.UserService;
+import com.hotelgo.util.JwtUtil;
 
 import java.util.HashMap;
 
 public class ViewController {
+	private final UserService userService;
+
+	public ViewController() {
+		this.userService = new UserService();
+	}
 
 	public ModelAndView login(Request req, Response res) {
 		return new ModelAndView(new HashMap<>(), "pages/auth/login");
