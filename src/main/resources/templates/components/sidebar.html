@@ -2,8 +2,10 @@
   <h1 class="navbar-logo">HotelGO</h1>
   <div class="navbar-links">
     <a href="/dashboard">Dashboard</a>
-    <a href="/booking">Bookings</a>
+    <a href="/booking/active">Bookings Active</a>
     <a href="/history">History</a>
   </div>
-  <button class="navbar-logout">Logout</button>
+  <a href="/profile">
+      <button class="btn-profile" th:text="${nama}"></button>
+  </a>
 </nav>

@@ -1,0 +1,72 @@
+<div layout:fragment="content">
+
+    <h2>Profil</h2>
+
+    <div id="viewMode">
+        <p><strong>Nama:</strong> <span th:text="${user.nama}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+
+        <button onclick="switchToEdit()">Edit</button>
+        <a href="/logout"><button>Logout</button></a>
+    </div>
+
+    <div id="editMode" style="display:none;">
+        <form id="profileForm">
+
+            <label>Nama</label><br>
+            <input type="text" name="nama" th:value="${user.nama}" required><br><br>
+
+            <label>Email</label><br>
+            <input type="email" name="email" th:value="${user.email}" required><br><br>
+
+            <button type="submit">Simpan</button>
+            <button type="button" onclick="switchToView()">Batal</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+function switchToEdit() {
+    document.getElementById("viewMode").style.display = "none";
+    document.getElementById("editMode").style.display = "block";
+}
+
+function switchToView() {
+    document.getElementById("editMode").style.display = "none";
+    document.getElementById("viewMode").style.display = "block";
+}
+
+document.getElementById("profileForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const nama = this.nama.value;
+    const email = this.email.value;
+
+    const body = new URLSearchParams();
+    body.append("nama", nama);
+    body.append("email", email);
+
+    try {
+        const response = await fetch("/api/user/profile/update", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: body
+        });
+
+        const result = await response.json();
+
+        if (response.status !== 200) {
+            alert(result.message || "Gagal update profil");
+            return;
+        }
+
+        alert("Profil berhasil diupdate!");
+        window.location.href = '/profile'
+
+    } catch (err) {
+        console.error(err);
+        alert("Terjadi kesalahan server.");
+    }
+});
+</script>
