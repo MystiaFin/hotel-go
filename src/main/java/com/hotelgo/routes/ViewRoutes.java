@@ -1,8 +1,8 @@
 package com.hotelgo.routes;
 import static spark.Spark.*;
 import com.hotelgo.config.ThymeleafTemplateEngine;
-import com.hotelgo.controller.ViewController;
-import com.hotelgo.controller.ClientViewController;
+import com.hotelgo.controller.Views.ViewController;
+import com.hotelgo.controller.Views.ClientViewController;
 
 public class ViewRoutes {
     

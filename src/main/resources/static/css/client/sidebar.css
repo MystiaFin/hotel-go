@@ -1,5 +1,6 @@
 .sidebar {
 	padding: 0.8rem;
+	width: 25%;
 	display: flex;
 	justify-content: space-between;
 	flex-direction: column;

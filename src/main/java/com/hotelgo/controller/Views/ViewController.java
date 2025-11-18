@@ -1,4 +1,4 @@
-package com.hotelgo.controller;
+package com.hotelgo.controller.Views;
 
 import spark.ModelAndView;
 import spark.Request;

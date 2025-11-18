@@ -1,4 +1,4 @@
-package com.hotelgo.controller;
+package com.hotelgo.controller.Views;
 
 import com.hotelgo.config.ThymeleafConfig;
 import com.hotelgo.config.ThymeleafTemplateEngine;
