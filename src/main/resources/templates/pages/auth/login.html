@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Login</title>
+	<link rel="stylesheet" href="/css/main.css" />
+</head>
+
+<body class="form-body">
+	<main class="form-container">
+		<form action="/api/user/login" method="post" class="form-main">
+
+			<h1>Login</h1>
+			<div class="input-label">
+				<label>Email:</label><br>
+				<input type="email" name="email" required><br>
+			</div>
+			<div class="input-label">
+				<label>Password:</label><br>
+				<input type="password" name="password" required><br><br>
+			</div>
+			<button type="submit" class="btn btn-confirm w-full">Login</button>
+			<a href="/forgot-password" class="mini-label">Forgot Password?</a>
+			<span>-or-</span>
+			<a href="/register" class="btn btn-confirm w-full">Register</a>
+		</form>
+	</main>
+</body>
+
+</html>

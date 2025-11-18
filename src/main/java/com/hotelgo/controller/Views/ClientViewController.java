@@ -37,7 +37,6 @@ public class ClientViewController {
 
 		String token = req.session().attribute("token");
 
-		// ADD THIS CHECK
 		if (token == null || token.isEmpty()) {
 			res.redirect("/login");
 			return null;
@@ -49,9 +48,11 @@ public class ClientViewController {
 		model.put("nama", user.getNama());
 		model.put("email", user.getEmail());
 		model.put("role", user.getRole());
+		model.put("title", "Home");
 		model.put("currentPath", req.pathInfo());
 		model.put("navLinks", getClientNavLinks());
 
+		// Point to the PAGE, not the layout!
 		return new ModelAndView(model, "pages/client/home");
 	}
 }

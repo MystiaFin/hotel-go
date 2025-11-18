@@ -1,17 +1,11 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
-<head>
-	<title th:text="${title}">My Site</title>
-	<link rel="stylesheet" href="/css/main.css" />
-</head>
-
+<html 
+  xmlns:th="http://www.thymeleaf.org" 
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/client}">
 <body>
-	<!-- Just pass the variables - NO inline objects! -->
-	<div th:replace="~{components/sidebar :: sidebar(${navLinks}, ${currentPath})}"></div>
-	<main>
-		<p>Selamat datang, <span th:text="${nama}"></span></p>
-	</main>
+  <div layout:fragment="content">
+    <p>Selamat datang, <span th:text="${nama}"></span></p>
+  </div>
 </body>
-
 </html>
