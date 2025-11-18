@@ -4,6 +4,7 @@ import com.hotelgo.config.ThymeleafConfig;
 import com.hotelgo.config.ThymeleafTemplateEngine;
 import com.hotelgo.model.HotelRoom;
 import com.hotelgo.model.User;
+import com.hotelgo.model.BookedHistory;
 import com.hotelgo.model.SideNavLinks;
 import com.hotelgo.service.HotelService;
 import com.hotelgo.service.RoomService;
