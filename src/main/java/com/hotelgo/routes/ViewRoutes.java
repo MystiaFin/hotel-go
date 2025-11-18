@@ -24,5 +24,18 @@ public class ViewRoutes {
 
         before("/booking/confirm/:roomId", AuthMiddleware.authorize("CUSTOMER", "ADMIN", "RESEPSIONIS"));
         get("/booking/confirm/:roomId", clientViewController::confirmBooking, engine);
+
+        before("/booking/active", AuthMiddleware.authorize("CUSTOMER", "ADMIN", "RESEPSIONIS"));
+        get("/booking/active", clientViewController::activeBookings, engine);
+
+        before("/profile", AuthMiddleware.authorize("CUSTOMER", "ADMIN", "RESEPSIONIS"));
+        get("/profile", viewController::profile, engine);
+
+        get("/logout", (req, res) -> {
+            req.session().removeAttribute("token");
+            req.session().invalidate();
+            res.redirect("/login");
+            return null;
+        });
     }
 }

@@ -36,4 +36,12 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    public void updateUser(User user) {
+        User existing = userRepository.findByEmail(user.getEmail());
+        if (existing != null && !existing.getUsername().equals(user.getUsername())) {
+            throw new RuntimeException("Email sudah digunakan");
+        }
+        userRepository.updateUser(user);
+    }
 }

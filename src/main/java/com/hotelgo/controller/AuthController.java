@@ -2,6 +2,8 @@ package com.hotelgo.controller;
 
 import com.hotelgo.model.User;
 import com.hotelgo.service.UserService;
+import com.hotelgo.util.JwtUtil;
+
 import spark.Request;
 import spark.Response;
 
@@ -55,6 +57,21 @@ public class AuthController {
         } else {
             res.status(400);
             return msg;
+        }
+    }
+
+    public Object updateProfile(Request req, Response res) {
+        String username = JwtUtil.getUsername(req.session().attribute("token"));
+        User u = new User();
+        u.setUsername(username);
+        u.setNama(req.queryParams("nama"));
+        u.setEmail(req.queryParams("email"));
+        try {
+            userService.updateUser(u);
+            return "{\"status\":\"success\"}";
+        } catch (RuntimeException e) {
+            res.status(400);
+            return "{\"status\":\"error\", \"message\":\"" + e.getMessage() + "\"}";
         }
     }
 }

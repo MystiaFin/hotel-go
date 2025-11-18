@@ -1,7 +1,11 @@
 package com.hotelgo.repository;
 
 import com.hotelgo.config.DatabaseConfig;
+import com.hotelgo.model.BookedHistory;
 import com.hotelgo.model.BookingStatus;
+
+import java.util.List;
+
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -24,6 +28,15 @@ public class BookingRepository {
                     .addParameter("bookedStatus", BookingStatus.PENDING.name())
                     .executeUpdate();
             return true;
+        }
+    }
+
+    public List<BookedHistory> getActiveBookingsByUser(Long userId) {
+        String sql = "SELECT b.id AS id, b.room_id AS roomId, b.user_id AS userId, b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, b.created_at AS createdAt, b.updated_at AS updatedAt, r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName, h.location AS hotelLocation FROM booked_histories b JOIN hotel_rooms r ON b.room_id = r.id JOIN hotels h ON r.hotel_id = h.id WHERE b.user_id = :userId AND b.booked_status = 'ACTIVE' ORDER BY b.created_at DESC";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("userId", userId)
+                    .executeAndFetch(BookedHistory.class);
         }
     }
 }
