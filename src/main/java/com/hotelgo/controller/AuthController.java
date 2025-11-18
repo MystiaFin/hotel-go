@@ -37,9 +37,10 @@ public class AuthController {
             return "Email atau password salah";
         }
         
+				req.session(true);
         req.session().attribute("token", token);
         req.session().attribute("email", email);
-        res.redirect("/dashboard");
+        res.redirect("/");
         return null;
     }
     

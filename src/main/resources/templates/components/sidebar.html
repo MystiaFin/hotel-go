@@ -1,10 +1,16 @@
-<nav th:fragment="navbar" class="navbar">
-  <h1 class="navbar-logo">HotelGO</h1>
-  <div class="navbar-links">
-    <a href="/">Home</a>
-    <a href="/pending">Pending</a>
-    <a href="/booking">Bookings</a>
-    <a href="/history">History</a>
-  </div>
-  <button class="navbar-logout">Logout</button>
-</nav>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <nav th:fragment="sidebar(links, currentPath)" class="sidebar">
+        <h1 class="sidebar-logo">HotelGO</h1>
+        <div class="sidebar-links">
+            <a th:each="link : ${links}" 
+               th:href="${link.url}" 
+               th:text="${link.text}"
+               th:classappend="${link.url == currentPath} ? 'active' : ''">
+            </a>
+        </div>
+        <button class="navbar-logout">Logout</button>
+    </nav>
+</body>
+</html>

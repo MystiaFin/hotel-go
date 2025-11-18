@@ -1,4 +1,4 @@
-.navbar {
+.sidebar {
 	padding: 0.8rem;
 	display: flex;
 	justify-content: space-between;
@@ -8,13 +8,13 @@
 	color: var(--color-base);
 }
 
-.navbar .navbar-links {
+.sidebar .sidebar-links {
 	display: flex;
 	flex-direction: column;
 	gap: 1.2rem;
 }
 
-.navbar .navbar-links a {
+.sidebar .sidebar-links a {
 	padding: 0.8rem;
 	color: var(--color-base);
 	text-decoration: none;
@@ -23,11 +23,15 @@
 	border-radius: 6px;
 }
 
-.navbar .navbar-links a:hover {
+.sidebar .sidebar-links a:hover {
 	background-color: var(--color-secondary);
 	cursor: pointer;
 }
 
-.navbar button {
+.sidebar-links a.active {
+	background-color: var(--color-secondary);
+}
+
+.sidebar button {
 	padding: 1rem;
 }
