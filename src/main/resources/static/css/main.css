@@ -11,5 +11,8 @@
 body {
   display: flex;
 	background-color: var(--color-base);
-	margin: 5px;
+}
+
+main {
+				margin: 10px;
 }
