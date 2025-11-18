@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/client}">
+<head>
+    <meta charset="UTF-8">
+    <title>Konfirmasi Booking</title>
+    <script>
+        function bookRoom() {
+            var userId = document.getElementById("userId").value;
+            var roomId = document.getElementById("roomId").value;
+
+            fetch('/api/booking/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `userId=${userId}&roomId=${roomId}`
+            })
+            .then(response => response.json().then(data => ({status: response.status, body: data})))
+            .then(res => {
+                alert(res.body.message);
+                if(res.status === 201){
+                    window.location.href = '/dashboard';
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Terjadi kesalahan saat memesan kamar.');
+            });
+        }
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:replace="~{components/heading-main :: headingMain('Konfirmasi Booking')}"></div>
+
+    <p><strong>Nama User:</strong> <span th:text="${user.nama}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+    <p><strong>Hotel:</strong> <span th:text="${hotel.name}"></span></p>
+    <p><strong>Lokasi:</strong> <span th:text="${hotel.location}"></span></p>
+    <p><strong>Kamar:</strong> <span th:text="${room.roomNumber}"></span></p>
+    <p><strong>Harga:</strong> Rp <span th:text="${room.price}"></span></p>
+    <p><strong>Status:</strong> <span>PENDING</span></p>
+
+    <input type="hidden" id="userId" th:value="${user.id}" />
+    <input type="hidden" id="roomId" th:value="${room.id}" />
+
+    <button type="button" onclick="bookRoom()">Pesan Kamar</button>
+</div>
+</body>
+</html>

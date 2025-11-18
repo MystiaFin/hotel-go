@@ -6,6 +6,7 @@ import com.hotelgo.config.ThymeleafConfig;
 import com.hotelgo.config.ThymeleafTemplateEngine;
 import com.hotelgo.routes.ViewRoutes;
 import com.hotelgo.routes.ApiRoutes;
+import com.hotelgo.scheduler.BookingScheduler;
 
 public class App {
 	public static void main(String[] args) {
@@ -30,6 +31,8 @@ public class App {
 		ViewRoutes.configure(engine);
 		ApiRoutes.configure();
 
+        // Scheduler update status booking EXPIRED
+        BookingScheduler.start();
 		System.out.println("HotelGo application started on http://localhost:4567");
 	}
 }

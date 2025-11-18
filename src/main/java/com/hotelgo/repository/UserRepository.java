@@ -27,8 +27,7 @@ public class UserRepository {
     }
 
     public void save(User user) {
-        String sql = "INSERT INTO users(nama, email, username, password, role) " +
-                "VALUES(:nama, :email, :username, :password, :role)";
+        String sql = "INSERT INTO users(nama, email, username, password, role) VALUES(:nama, :email, :username, :password, :role)";
         try (Connection con = sql2o.beginTransaction()) {
             con.createQuery(sql)
                     .addParameter("nama", user.getNama())
