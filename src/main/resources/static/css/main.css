@@ -1,5 +1,6 @@
 @import url("colorschemes.css");
 @import url("client/sidebar.css");
+@import url("button.css");
 
 * {
   margin: 0;
@@ -9,4 +10,6 @@
 
 body {
   display: flex;
+	background-color: var(--color-base);
+	margin: 5px;
 }
