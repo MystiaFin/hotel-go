@@ -1,5 +1,8 @@
 package com.hotelgo.controller;
 
+import java.util.List;
+
+import com.hotelgo.model.BookedHistory;
 import com.hotelgo.service.BookingService;
 import spark.Request;
 import spark.Response;
@@ -22,5 +25,13 @@ public class BookingController {
             res.status(400);
             return "{\"message\": \"Gagal memesan kamar\"}";
         }
+    }
+
+    public Object getActiveBookings(Request req, Response res) {
+        Long userId = Long.parseLong(req.queryParams("userId"));
+        List<BookedHistory> bookings = bookingService.getActiveBookingsForUser(userId);
+        res.type("application/json");
+        res.status(200);
+        return bookings;
     }
 }

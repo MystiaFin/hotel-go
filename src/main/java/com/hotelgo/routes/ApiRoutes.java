@@ -15,6 +15,7 @@ public class ApiRoutes {
 			post("/register", authController::register);
 			post("/login", authController::login);
 			post("/forgot-password", authController::forgotPassword);
+            post("/profile/update", authController::updateProfile);
 		});
         path("/api/hotel", () -> {
             post("", hotelController::getHotels);
@@ -22,6 +23,7 @@ public class ApiRoutes {
         });
         path("/api/booking", () -> {
             post("/create", bookingController::createBooking);
+            get("/active", bookingController::getActiveBookings);
         });
 	}
 }

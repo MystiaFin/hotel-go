@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/client}">
+<div layout:fragment="content">
+
+    <h2>Booking Aktif</h2>
+    <p>Halo, <span th:text="${user.nama}"></span></p>
+
+    <div th:if="${#lists.isEmpty(activeBookings)}">
+        <p>Tidak ada booking aktif saat ini.</p>
+    </div>
+
+    <div th:if="${!#lists.isEmpty(activeBookings)}">
+        <div th:each="booking : ${activeBookings}">
+        <div th:replace="~{components/card :: card(
+            ${booking.hotelName} + ' - Kamar ' + ${booking.roomNumber},
+            'Check-in: ' + ${booking.checkinDate} + ', Check-out: ' + ${booking.checkoutDate} + ', Status: ' + ${booking.bookedStatus}
+        )}"></div>
+    </div>
+    </div>
+
+</div>
+</html>

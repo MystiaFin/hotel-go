@@ -47,4 +47,13 @@ public class ViewController {
         model.put("title", "Dashboard");
         return new ModelAndView(model, "pages/client/dashboard");
     }
+
+    public ModelAndView profile(Request req, Response res) {
+        HashMap<String, Object> model = new HashMap<>();
+        String username = JwtUtil.getUsername(req.session().attribute("token"));
+        User user = userService.getUserByUsername(username);
+        model.put("user", user);
+        return new ModelAndView(model, "pages/client/profile");
+    }
+    
 }
