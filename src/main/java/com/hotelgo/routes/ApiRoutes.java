@@ -2,9 +2,13 @@ package com.hotelgo.routes;
 
 import static spark.Spark.*;
 import com.hotelgo.controller.AuthController;
+import com.hotelgo.controller.BookingController;
+import com.hotelgo.controller.HotelController;
 
 public class ApiRoutes {
 	private static final AuthController authController = new AuthController();
+    private static final HotelController hotelController = new HotelController();
+    private static final BookingController bookingController = new BookingController();
 
 	public static void configure() {
 		path("/api/user", () -> {
@@ -12,5 +16,12 @@ public class ApiRoutes {
 			post("/login", authController::login);
 			post("/forgot-password", authController::forgotPassword);
 		});
+        path("/api/hotel", () -> {
+            post("", hotelController::getHotels);
+            post("/:id", hotelController::getRoomsByHotelId);
+        });
+        path("/api/booking", () -> {
+            post("/create", bookingController::createBooking);
+        });
 	}
 }

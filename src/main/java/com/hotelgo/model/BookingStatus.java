@@ -4,7 +4,8 @@ public enum BookingStatus {
   PENDING,
   ACTIVE,
   CANCELLED,
-  EXPIRED;
+  EXPIRED,
+  COMPLETED;
 
   public static BookingStatus fromString(String status) {
     if (status == null) {

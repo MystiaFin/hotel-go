@@ -1,11 +1,33 @@
 <!doctype html>
-<html 
-  xmlns:th="http://www.thymeleaf.org" 
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/client}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/client}">
+
 <body>
-  <div layout:fragment="content">
-    <p>Selamat datang, <span th:text="${nama}"></span></p>
-  </div>
+	<div layout:fragment="content">
+		<div th:replace="~{components/heading-main :: headingMain('Daftar Hotel')}"></div>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nama Hotel</th>
+					<th>Lokasi</th>
+					<th>Aksi</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="h : ${hotels}">
+					<td th:text="${h.id}"></td>
+					<td th:text="${h.name}"></td>
+					<td th:text="${h.location}"></td>
+					<td>
+						<a th:href="|/hotels/${h.id}|">Detail Hotel</a>
+					</td>
+				</tr>
+			</tbody>
+
+		</table>
+	</div>
 </body>
+
 </html>

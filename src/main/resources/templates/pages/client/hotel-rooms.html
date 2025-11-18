@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/client}">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Hotel Rooms</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div th:replace="~{components/heading-main :: headingMain('Daftar Kamar')}"></div>
+
+		<table border="1" cellpadding="8">
+			<tr>
+				<th>Room Number</th>
+				<th>Price</th>
+				<th>Status</th>
+				<th>Aksi</th>
+			</tr>
+
+			<tr th:each="room : ${rooms}">
+				<td th:text="${room.roomNumber}"></td>
+				<td th:text="${room.price}"></td>
+				<td th:text="${room.isAvailable == 1 ? 'Available' : 'Not Available'}"></td>
+
+				<td>
+					<a th:if="${room.isAvailable == 1}" th:href="'/booking/confirm/' + ${room.id}">
+						Pilih Kamar
+					</a>
+
+					<span th:if="${room.isAvailable != 1}">Tidak tersedia</span>
+				</td>
+			</tr>
+		</table>
+
+		<br>
+		<a href="/">Kembali</a>
+	</div>
+</body>
+
+</html>

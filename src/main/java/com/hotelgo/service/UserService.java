@@ -32,4 +32,8 @@ public class UserService {
         userRepository.updatePassword(email, BCrypt.hashpw(newPassword, BCrypt.gensalt()));
         return "Password berhasil diperbarui";
     }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }

@@ -3,6 +3,7 @@ package com.hotelgo;
 import static spark.Spark.*;
 import com.hotelgo.config.DatabaseConfig;
 import com.hotelgo.routes.Routes;
+import com.hotelgo.scheduler.BookingScheduler;
 
 public class App {
 	public static void main(String[] args) {
@@ -21,7 +22,7 @@ public class App {
 		staticFiles.location("/static");
 
 		Routes.init();
-
+		BookingScheduler.start();
 		System.out.println("HotelGo application started on http://localhost:4567");
 	}
 }
