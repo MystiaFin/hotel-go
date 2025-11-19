@@ -16,7 +16,7 @@
 				<th>Room Number</th>
 				<th>Price</th>
 				<th>Status</th>
-				<th>Aksi</th>
+				<th>Action</th>
 			</tr>
 
 			<tr th:each="room : ${rooms}">
@@ -26,16 +26,16 @@
 
 				<td>
 					<a th:if="${room.isAvailable == 1}" th:href="'/booking/confirm/' + ${room.id}">
-						Pilih Kamar
+						Select Room
 					</a>
 
-					<span th:if="${room.isAvailable != 1}">Tidak tersedia</span>
+					<span th:if="${room.isAvailable != 1}">Not Available</span>
 				</td>
 			</tr>
 		</table>
 
 		<br>
-		<a href="/">Kembali</a>
+		<a href="/">Back Home</a>
 	</div>
 </body>
 

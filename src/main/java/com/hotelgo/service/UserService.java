@@ -10,11 +10,11 @@ public class UserService {
 
     public String register(User user) {
         if (userRepository.findByEmail(user.getEmail()) != null) {
-            return "Email sudah terdaftar!";
+            return "Email is registered";
         }
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         userRepository.save(user);
-        return "Registrasi berhasil!";
+        return "Registration successful";
     }
 
     public String login(String email, String password) {
@@ -28,9 +28,9 @@ public class UserService {
     public String forgotPassword(String email, String newPassword) {
         User user = userRepository.findByEmail(email);
         if (user == null)
-            return "Email tidak ditemukan";
+            return "Incorrect email or password";
         userRepository.updatePassword(email, BCrypt.hashpw(newPassword, BCrypt.gensalt()));
-        return "Password berhasil diperbarui";
+        return "Password updated successfully";
     }
 
     public User getUserByUsername(String username) {
@@ -40,7 +40,7 @@ public class UserService {
     public void updateUser(User user) {
         User existing = userRepository.findByEmail(user.getEmail());
         if (existing != null && !existing.getUsername().equals(user.getUsername())) {
-            throw new RuntimeException("Email sudah digunakan");
+            throw new RuntimeException("Email is already in use");
         }
         userRepository.updateUser(user);
     }

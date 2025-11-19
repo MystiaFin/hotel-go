@@ -4,7 +4,7 @@
       layout:decorate="~{layout/client}">
 <head>
     <meta charset="UTF-8">
-    <title>Konfirmasi Booking</title>
+    <title>Booking Confirm</title>
     <script>
         function bookRoom() {
             var userId = document.getElementById("userId").value;
@@ -21,32 +21,32 @@
             .then(res => {
                 alert(res.body.message);
                 if(res.status === 201){
-                    window.location.href = '/dashboard';
+                    window.location.href = '/';
                 }
             })
             .catch(error => {
                 console.error(error);
-                alert('Terjadi kesalahan saat memesan kamar.');
+                alert('An error occurred while booking the room');
             });
         }
     </script>
 </head>
 <body>
 <div layout:fragment="content">
-    <div th:replace="~{components/heading-main :: headingMain('Konfirmasi Booking')}"></div>
+    <div th:replace="~{components/heading-main :: headingMain('Booking Confirm')}"></div>
 
-    <p><strong>Nama User:</strong> <span th:text="${user.nama}"></span></p>
+    <p><strong>User:</strong> <span th:text="${user.nama}"></span></p>
     <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
     <p><strong>Hotel:</strong> <span th:text="${hotel.name}"></span></p>
-    <p><strong>Lokasi:</strong> <span th:text="${hotel.location}"></span></p>
-    <p><strong>Kamar:</strong> <span th:text="${room.roomNumber}"></span></p>
-    <p><strong>Harga:</strong> Rp <span th:text="${room.price}"></span></p>
+    <p><strong>Location Hotel:</strong> <span th:text="${hotel.location}"></span></p>
+    <p><strong>Room:</strong> <span th:text="${room.roomNumber}"></span></p>
+    <p><strong>Price:</strong> Rp <span th:text="${room.price}"></span></p>
     <p><strong>Status:</strong> <span>PENDING</span></p>
 
     <input type="hidden" id="userId" th:value="${user.id}" />
     <input type="hidden" id="roomId" th:value="${room.id}" />
 
-    <button type="button" onclick="bookRoom()">Pesan Kamar</button>
+    <button type="button" onclick="bookRoom()">Booking Room</button>
 </div>
 </body>
 </html>

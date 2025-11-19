@@ -20,10 +20,10 @@ public class BookingController {
 
         if (success) {
             res.status(201);
-            return "{\"message\": \"Kamar berhasil dipesan, silahkan bayar dan konfirmasi ke resepsionis untuk kamar yang anda pilih dalam jangka waktu maksimal 1 jam\"}";
+            return "{\"message\": \"The room has been booked successfully, please pay and confirm with the receptionist for the room you have chosen within a maximum of 1 hour\"}";
         } else {
             res.status(400);
-            return "{\"message\": \"Gagal memesan kamar\"}";
+            return "{\"message\": \"Failed to book a room\"}";
         }
     }
 

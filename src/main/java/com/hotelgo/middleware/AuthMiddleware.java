@@ -26,11 +26,11 @@ public class AuthMiddleware {
 				}
 				if (!allowed) {
 					res.status(403);
-					halt(403, "Akses ditolak");
+					halt(403, "Access denied");
 				}
 			} catch (JwtException e) {
 				res.status(401);
-				halt(401, "Token tidak valid");
+				halt(401, "Invalid token");
 			}
 		};
 	}

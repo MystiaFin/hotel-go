@@ -1,0 +1,48 @@
+.booking-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+	max-width: 1190px;
+    overflow-y: auto;
+    max-height: 650px;
+}
+
+.booking-card {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    border-left: 6px solid var(--color-green);
+}
+
+.booking-left h3 {
+    margin: 0 0 5px;
+    font-size: 20px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
+}
+
+.booking-left p {
+    margin: 3px 0;
+    font-size: 15px;
+    color: #444;
+}
+
+.booking-right {
+    text-align: right;
+	margin-top: 5px;
+}
+
+.status {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+	background: #d4f7d9;
+    color: #1b8c32;
+}

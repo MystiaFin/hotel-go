@@ -14,7 +14,6 @@ public class ViewRoutes {
         get("/login", viewController::login, engine);
         get("/register", viewController::register, engine);
         get("/forgot-password", viewController::forgotPassword, engine);
-
         
         before("/", AuthMiddleware.authorize("CUSTOMER", "ADMIN", "RESEPSIONIS"));
         get("/", clientViewController::home, engine);

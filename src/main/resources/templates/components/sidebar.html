@@ -9,10 +9,7 @@
 				th:classappend="${link.url == currentPath} ? 'active' : ''">
 			</a>
 		</div>
-		<button class="btn btn-reject">Logout</button>
-		<a href="/profile">
-			<button class="btn-profile" th:text="${nama}"></button>
-		</a>
+		<a href="/profile" class="btn btn-reject" th:text="${user.nama}"></a>
 	</nav>
 </body>
 

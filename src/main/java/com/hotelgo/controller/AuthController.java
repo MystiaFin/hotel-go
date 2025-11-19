@@ -20,7 +20,7 @@ public class AuthController {
         
         String msg = userService.register(user);
         
-        if (msg.equals("Registrasi berhasil!")) {
+        if (msg.equals("Registration successful")) {
             res.redirect("/login");
             return null;
         } else {
@@ -36,7 +36,7 @@ public class AuthController {
         
         if (token == null) {
             res.status(401);
-            return "Email atau password salah";
+            return "Incorrect email or password";
         }
         
 				req.session(true);
@@ -51,7 +51,7 @@ public class AuthController {
         String newPassword = req.queryParams("password");
         String msg = userService.forgotPassword(email, newPassword);
         
-        if (msg.equals("Password berhasil diperbarui")) {
+        if (msg.equals("Password updated successfully")) {
             res.redirect("/login");
             return null;
         } else {
