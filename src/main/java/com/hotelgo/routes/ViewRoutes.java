@@ -3,6 +3,7 @@ import static spark.Spark.*;
 import com.hotelgo.config.ThymeleafTemplateEngine;
 import com.hotelgo.controller.Views.ViewController;
 import com.hotelgo.controller.Views.ClientViewController;
+import com.hotelgo.controller.Views.AdminViewController;
 import com.hotelgo.middleware.AuthMiddleware;
 
 public class ViewRoutes {
@@ -10,7 +11,9 @@ public class ViewRoutes {
     public static void configure(ThymeleafTemplateEngine engine) {
         ViewController viewController = new ViewController();
         ClientViewController clientViewController = new ClientViewController();
+        AdminViewController adminViewController = new AdminViewController();
         
+				// Client View Routes
         get("/login", viewController::login, engine);
         get("/register", viewController::register, engine);
         get("/forgot-password", viewController::forgotPassword, engine);
@@ -37,5 +40,9 @@ public class ViewRoutes {
             res.redirect("/login");
             return null;
         });
+				
+				// Admin View Routes
+				get("/admin/dashboard", adminViewController::adminDashboard, engine);
+
     }
 }
