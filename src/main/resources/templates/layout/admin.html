@@ -4,50 +4,11 @@
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
   <head>
-    <title th:text="${title}">My Site</title>
+    <title th:text="${title}">Admin</title>
     <link rel="stylesheet" href="/css/main.css" />
   </head>
   <body>
-    <!-- 
-      Sidebar Component Usage:
-      
-      To use the sidebar, uncomment and customize the links below:
-      
-      <div th:replace="~{components/sidebar :: sidebar(
-          {
-              {url: '/', text: 'Home'},
-              {url: '/dashboard', text: 'Dashboard'},
-              {url: '/booking', text: 'Bookings'}
-          },
-          ${currentPath}
-      )}"></div>
-      
-      Parameters:
-      - First parameter: Array of link objects with 'url' and 'text' properties
-      - Second parameter: ${currentPath} for active link highlighting
-      
-      Example for different roles:
-      
-      Customer:
-      {url: '/', text: 'Home'},
-      {url: '/booking', text: 'My Bookings'},
-      {url: '/history', text: 'History'}
-      
-      Admin:
-      {url: '/admin/dashboard', text: 'Dashboard'},
-      {url: '/admin/users', text: 'Users'},
-      {url: '/admin/rooms', text: 'Rooms'},
-      {url: '/admin/bookings', text: 'All Bookings'}
-      
-      Receptionist:
-      {url: '/reception/dashboard', text: 'Dashboard'},
-      {url: '/reception/checkin', text: 'Check In'},
-      {url: '/reception/checkout', text: 'Check Out'}
-      
-      Note: Make sure to pass ${currentPath} from your controller using:
-      model.put("currentPath", req.pathInfo());
-    -->
-    
+    <div th:replace="~{components/sidebar :: sidebar(${navlinks}, ${currentpath})}"></div>
     <main>
       <div layout:fragment="content"></div>
     </main>
