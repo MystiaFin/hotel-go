@@ -5,26 +5,12 @@
 <body>
 	<div layout:fragment="content">
 		<div th:replace="~{components/heading-main :: headingMain('List Hotel')}"></div>
-		<table border="1">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Name Hotel</th>
-					<th>Location</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="h : ${hotels}">
-					<td th:text="${h.id}"></td>
-					<td th:text="${h.name}"></td>
-					<td th:text="${h.location}"></td>
-					<td>
-						<a th:href="|/hotels/${h.id}|">Hotel Detail</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="hotel-grid">
+			<div class="hotel-card" th:each="h : ${hotels}" th:onclick="|window.location='/hotels/${h.id}'|">
+				<h3 th:text="${h.name}">Hotel Name</h3>
+				<p th:text="${h.location}">Hotel Location</p>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

@@ -6,11 +6,14 @@
   <head>
     <title th:text="${title}">My Site</title>
     <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/card.css" />
   </head>
   <body>
     <div th:replace="~{components/sidebar :: sidebar(${navLinks}, ${currentPath})}"></div>
     <main>
       <div layout:fragment="content"></div>
     </main>
+    <div th:replace="components/popup :: popup"></div>
+    <div layout:fragment="scripts"></div>
   </body>
 </html>

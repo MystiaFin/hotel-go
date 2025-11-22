@@ -8,8 +8,17 @@ import com.hotelgo.repository.BookingRepository;
 public class BookingService {
     private final BookingRepository repository = new BookingRepository();
 
-    public boolean createBooking(long userId, long roomId) {
-        return repository.createBooking(userId, roomId);
+    public String createBooking(long userId, long roomId) {
+        if (repository.isRoomBooked(roomId)) {
+            return "ERROR: Room already booked";
+        }
+
+        boolean success = repository.createBooking(userId, roomId);
+        if (success) {
+            return "SUCCESS: The room has been booked successfully, please pay and confirm with the receptionist for the room you have chosen within a maximum of 1 hour";
+        } else {
+            return "ERROR: Failed to book room";
+        }
     }
 
     public List<BookedHistory> getActiveBookingsForUser(Long userId)  {

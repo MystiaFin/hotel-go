@@ -17,6 +17,7 @@ import spark.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import static com.hotelgo.util.PopupUtil.addPopupFromSession;
 
 public class ClientViewController {
 	private final ThymeleafTemplateEngine engine;
@@ -50,6 +51,7 @@ public class ClientViewController {
                 model.put("user", user);
             }
         }
+		addPopupFromSession(req, model);
     }
 
 	public ModelAndView home(Request req, Response res) {

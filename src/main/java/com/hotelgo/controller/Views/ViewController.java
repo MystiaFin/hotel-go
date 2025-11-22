@@ -12,6 +12,7 @@ import com.hotelgo.util.JwtUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import static com.hotelgo.util.PopupUtil.addPopupFromSession;
 
 public class ViewController {
 	private final UserService userService;
@@ -28,27 +29,40 @@ public class ViewController {
 		return links;
 	}
 
-	public ModelAndView login(Request req, Response res) {
-		return new ModelAndView(new HashMap<>(), "pages/auth/login");
-	}
+    public ModelAndView login(Request req, Response res) {
+        HashMap<String, Object> model = new HashMap<>();
+        addPopupFromSession(req, model);
+        return new ModelAndView(model, "pages/auth/login");
+    }
 
-	public ModelAndView register(Request req, Response res) {
-		return new ModelAndView(new HashMap<>(), "pages/client/register");
-	}
+    public ModelAndView register(Request req, Response res) {
+        HashMap<String, Object> model = new HashMap<>();
+        addPopupFromSession(req, model);
+        return new ModelAndView(model, "pages/client/register");
+    }
 
-	public ModelAndView forgotPassword(Request req, Response res) {
-		return new ModelAndView(new HashMap<>(), "pages/auth/forgot-password");
-	}
+    public ModelAndView forgotPassword(Request req, Response res) {
+        HashMap<String, Object> model = new HashMap<>();
+        addPopupFromSession(req, model);
+        return new ModelAndView(model, "pages/auth/forgot-password");
+    }
 
-	public ModelAndView profile(Request req, Response res) {
-		HashMap<String, Object> model = new HashMap<>();
-		String username = JwtUtil.getUsername(req.session().attribute("token"));
-		User user = userService.getUserByUsername(username);
-		model.put("user", user);
-		model.put("title", "Profile");
-		model.put("currentPath", req.pathInfo());
-		model.put("navLinks", getClientNavLinks());
-		return new ModelAndView(model, "pages/client/profile");
-	}
+    public ModelAndView profile(Request req, Response res) {
+        HashMap<String, Object> model = new HashMap<>();
+        String username = JwtUtil.getUsername(req.session().attribute("token"));
+        User user = userService.getUserByUsername(username);
+        model.put("user", user);
+        model.put("title", "Profile");
+        model.put("currentPath", req.pathInfo());
+        model.put("navLinks", getClientNavLinks());
+        addPopupFromSession(req, model);
+        return new ModelAndView(model, "pages/client/profile");
+    }
 
+    public ModelAndView home(Request req, Response res) {
+        HashMap<String, Object> model = new HashMap<>();
+        addPopupFromSession(req, model);
+        model.put("title", "Home");
+        return new ModelAndView(model, "pages/client/home");
+    }
 }

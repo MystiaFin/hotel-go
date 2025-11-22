@@ -28,7 +28,7 @@ public class UserService {
     public String forgotPassword(String email, String newPassword) {
         User user = userRepository.findByEmail(email);
         if (user == null)
-            return "Incorrect email or password";
+            return "Incorrect email";
         userRepository.updatePassword(email, BCrypt.hashpw(newPassword, BCrypt.gensalt()));
         return "Password updated successfully";
     }
@@ -37,11 +37,17 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void updateUser(User user) {
+    public String updateUser(User user) {
         User existing = userRepository.findByEmail(user.getEmail());
         if (existing != null && !existing.getUsername().equals(user.getUsername())) {
-            throw new RuntimeException("Email is already in use");
+            return "ERROR: Email is already in use";
         }
-        userRepository.updateUser(user);
+
+        boolean updated = userRepository.updateUser(user);
+        if (updated) {
+            return "SUCCESS: User updated successfully";
+        } else {
+            return "ERROR: Failed to update user";
+        }
     }
 }

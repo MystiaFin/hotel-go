@@ -1,0 +1,25 @@
+<div th:fragment="popup">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <div th:if="${popupMessage != null}">
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+        let message = /*[[${popupMessage}]]*/ '';
+        let type = /*[[${popupType}]]*/ 'info';
+        let redirect = /*[[${redirectUrl}]]*/ '/';
+
+        Swal.fire({
+            title: message,
+            icon: type,
+            confirmButtonText: 'OK',
+            customClass: {
+                popup: type === 'success' ? 'popup-success' : 'popup-error',
+                title: type === 'success' ? 'title-success' : 'title-error',
+                confirmButton: type === 'success' ? 'btn-confirm' : 'btn-reject'
+            }
+        }).then(() => {
+            window.location.href = redirect;
+        });
+        /*]]>*/
+        </script>
+    </div>
+</div>

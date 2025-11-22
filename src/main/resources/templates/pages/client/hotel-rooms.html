@@ -9,33 +9,18 @@
 
 <body>
 	<div layout:fragment="content">
-		<div th:replace="~{components/heading-main :: headingMain('Daftar Kamar')}"></div>
-
-		<table border="1" cellpadding="8">
-			<tr>
-				<th>Room Number</th>
-				<th>Price</th>
-				<th>Status</th>
-				<th>Action</th>
-			</tr>
-
-			<tr th:each="room : ${rooms}">
-				<td th:text="${room.roomNumber}"></td>
-				<td th:text="${room.price}"></td>
-				<td th:text="${room.isAvailable == 1 ? 'Available' : 'Not Available'}"></td>
-
-				<td>
-					<a th:if="${room.isAvailable == 1}" th:href="'/booking/confirm/' + ${room.id}">
-						Select Room
-					</a>
-
-					<span th:if="${room.isAvailable != 1}">Not Available</span>
-				</td>
-			</tr>
-		</table>
-
+		<div th:replace="~{components/heading-main :: headingMain('List Rooms')}"></div>
+		<div class="room-grid">
+			<div class="room-card" th:each="room : ${rooms}" th:classappend="${room.isAvailable != 1} ? ' unavailable'"
+				th:onclick="${room.isAvailable == 1} ? 'window.location=\'/booking/confirm/' + ${room.id} + '\';' : null">
+				<h3>Room <span th:text="${room.roomNumber}"></span></h3>
+				<p th:text="'Rp ' + ${room.price}"></p>
+				<div class="room-status" th:text="${room.isAvailable == 1 ? 'Available' : 'Not Available'}">
+				</div>
+			</div>
+		</div>
 		<br>
-		<a href="/">Back Home</a>
+		<a href="/" class="profile-btn profile-btn-secondary" style="margin-left: 10px;">Back Home</a>
 	</div>
 </body>
 
