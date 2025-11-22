@@ -1,33 +1,16 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/client}">
-
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/client}">
 <body>
 	<div layout:fragment="content">
-		<div th:replace="~{components/heading-main :: headingMain('Daftar Hotel')}"></div>
-		<table border="1">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Nama Hotel</th>
-					<th>Lokasi</th>
-					<th>Aksi</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<tr th:each="h : ${hotels}">
-					<td th:text="${h.id}"></td>
-					<td th:text="${h.name}"></td>
-					<td th:text="${h.location}"></td>
-					<td>
-						<a th:href="|/hotels/${h.id}|">Detail Hotel</a>
-					</td>
-				</tr>
-			</tbody>
-
-		</table>
+		<div th:replace="~{components/heading-main :: headingMain('List Hotel')}"></div>
+		<div class="hotel-grid">
+			<div class="hotel-card" th:each="h : ${hotels}" th:onclick="|window.location='/hotels/${h.id}'|">
+				<h3 th:text="${h.name}">Hotel Name</h3>
+				<p th:text="${h.location}">Hotel Location</p>
+			</div>
+		</div>
 	</div>
 </body>
-
 </html>

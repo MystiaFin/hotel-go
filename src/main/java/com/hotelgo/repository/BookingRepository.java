@@ -39,4 +39,14 @@ public class BookingRepository {
                     .executeAndFetch(BookedHistory.class);
         }
     }
+
+    public boolean isRoomBooked(long roomId) {
+        String sql = "SELECT COUNT(*) FROM booked_histories WHERE room_id = :roomId AND booked_status IN ('PENDING', 'ACTIVE') AND (expiration_date IS NULL OR expiration_date > NOW())";
+        try (Connection con = sql2o.open()) {
+            int count = con.createQuery(sql)
+                        .addParameter("roomId", roomId)
+                        .executeScalar(Integer.class);
+            return count > 0;
+        }
+    }
 }

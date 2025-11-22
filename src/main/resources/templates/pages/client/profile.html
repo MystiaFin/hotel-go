@@ -1,72 +1,47 @@
-<div layout:fragment="content">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/client}">
 
-    <h2>Profil</h2>
+<body>
+    <div layout:fragment="content">
+        <div th:replace="~{components/heading-main :: headingMain('Profile')}"></div>
+        <div style="margin-left: 10px;">
+            <div id="viewMode" class="profile-view">
+                <p><strong>Name:</strong> <span th:text="${user.nama}"></span></p>
+                <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+                <button class="profile-btn btn-secondary" onclick="switchToEdit()">Edit</button>
+                <a href="/logout">
+                    <button class="profile-btn btn-reject">Logout</button>
+                </a>
+            </div>
 
-    <div id="viewMode">
-        <p><strong>Nama:</strong> <span th:text="${user.nama}"></span></p>
-        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
-
-        <button onclick="switchToEdit()">Edit</button>
-        <a href="/logout"><button>Logout</button></a>
+            <div id="editMode" class="profile-edit" style="display:none;">
+                <form action="/api/user/profile/update" method="post">
+                    <label>Name</label><br>
+                    <input type="text" class="profile-input" name="nama" th:value="${user.nama}" required><br>
+                    <label>Email</label><br>
+                    <input type="email" class="profile-input" name="email" th:value="${user.email}" required><br>
+                    <button type="submit" class="profile-btn btn-confirm">Save</button>
+                    <button type="button" class="profile-btn btn-reject"
+                        onclick="switchToView()">Cancel</button>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <div id="editMode" style="display:none;">
-        <form id="profileForm">
+    <div layout:fragment="scripts">
+        <script>
+            function switchToEdit() {
+                document.getElementById("viewMode").style.display = "none";
+                document.getElementById("editMode").style.display = "block";
+            }
 
-            <label>Nama</label><br>
-            <input type="text" name="nama" th:value="${user.nama}" required><br><br>
-
-            <label>Email</label><br>
-            <input type="email" name="email" th:value="${user.email}" required><br><br>
-
-            <button type="submit">Simpan</button>
-            <button type="button" onclick="switchToView()">Batal</button>
-        </form>
+            function switchToView() {
+                document.getElementById("editMode").style.display = "none";
+                document.getElementById("viewMode").style.display = "block";
+            }
+        </script>
     </div>
-
-</div>
-
-<script>
-function switchToEdit() {
-    document.getElementById("viewMode").style.display = "none";
-    document.getElementById("editMode").style.display = "block";
-}
-
-function switchToView() {
-    document.getElementById("editMode").style.display = "none";
-    document.getElementById("viewMode").style.display = "block";
-}
-
-document.getElementById("profileForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const nama = this.nama.value;
-    const email = this.email.value;
-
-    const body = new URLSearchParams();
-    body.append("nama", nama);
-    body.append("email", email);
-
-    try {
-        const response = await fetch("/api/user/profile/update", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: body
-        });
-
-        const result = await response.json();
-
-        if (response.status !== 200) {
-            alert(result.message || "Gagal update profil");
-            return;
-        }
-
-        alert("Profil berhasil diupdate!");
-        window.location.href = '/profile'
-
-    } catch (err) {
-        console.error(err);
-        alert("Terjadi kesalahan server.");
-    }
-});
-</script>
+</body>
+</html>

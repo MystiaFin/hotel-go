@@ -30,3 +30,25 @@
 .w-full {
 	width: 100%;
 }
+
+.btn-secondary {
+    background: var(--color-secondary);
+}
+
+.btn-secondary:hover {
+    background: var(--color-accent);
+}
+
+.profile-btn {
+    padding: 10px 20px;
+	font-size: 14px;
+	border-radius: 8px;
+	color: var(--color-base);
+	border: none;
+	font-weight: 600;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	margin-right: 2px;
+	margin-top: 10px;
+}

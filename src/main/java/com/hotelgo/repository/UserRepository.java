@@ -51,7 +51,7 @@ public class UserRepository {
         }
     }
 
-    public void updateUser(User user) {
+    public boolean updateUser(User user) {
         String sql = "UPDATE users SET nama=:nama, email=:email WHERE username=:username";
         try (Connection con = sql2o.beginTransaction()) {
             con.createQuery(sql)
@@ -60,6 +60,7 @@ public class UserRepository {
                     .addParameter("username", user.getUsername())
                     .executeUpdate();
             con.commit();
+            return true;
         }
     }
 }

@@ -9,22 +9,24 @@
 <body class="form-body">
 	<main class="form-container">
 		<form action="/api/user/login" method="post" class="form-main">
-
-			<h1>Login</h1>
+			<h2>Login</h2>
 			<div class="input-label">
-				<label>Email:</label><br>
-				<input type="email" name="email" required><br>
+				<label>Email:</label>
+				<input type="email" name="email" required>
 			</div>
 			<div class="input-label">
-				<label>Password:</label><br>
-				<input type="password" name="password" required><br><br>
+				<label>Password:</label>
+				<input type="password" name="password" required>
+			</div>
+			<div style="text-align:right !important;">
+				<a href="/forgot-password" class="mini-label">Forgot Password?</a>
 			</div>
 			<button type="submit" class="btn btn-confirm w-full">Login</button>
-			<a href="/forgot-password" class="mini-label">Forgot Password?</a>
-			<span>-or-</span>
+			<span class="mini-label" style="text-align: center;">- or -</span>
 			<a href="/register" class="btn btn-confirm w-full">Register</a>
 		</form>
 	</main>
+    <div th:replace="components/popup :: popup"></div>
 </body>
 
 </html>

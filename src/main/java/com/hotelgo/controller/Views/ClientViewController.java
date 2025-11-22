@@ -17,6 +17,7 @@ import spark.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import static com.hotelgo.util.PopupUtil.addPopupFromSession;
 
 public class ClientViewController {
 	private final ThymeleafTemplateEngine engine;
@@ -36,46 +37,40 @@ public class ClientViewController {
 	private List<SideNavLinks> getClientNavLinks() {
 		List<SideNavLinks> links = new ArrayList<>();
 		links.add(new SideNavLinks("/", "Home"));
-		links.add(new SideNavLinks("/pending", "Pending"));
-		links.add(new SideNavLinks("/booking", "Bookings"));
+		links.add(new SideNavLinks("/booking/active", "Bookings Active"));
 		links.add(new SideNavLinks("/history", "History"));
 		return links;
 	}
 
+	private void injectUserData(Request req, HashMap<String, Object> model) {
+        String token = req.session().attribute("token");
+        if (token != null && !token.isEmpty()) {
+            String username = JwtUtil.getUsername(token);
+            User user = userService.getUserByUsername(username);
+            if (user != null) {
+                model.put("user", user);
+            }
+        }
+		addPopupFromSession(req, model);
+    }
+
 	public ModelAndView home(Request req, Response res) {
 		HashMap<String, Object> model = new HashMap<>();
-		String token = req.session().attribute("token");
-
-		// Token validation
-		if (token == null || token.isEmpty()) {
-			res.redirect("/login");
-			return null;
-		}
-
-		String username = JwtUtil.getUsername(token);
-		User user = userService.getUserByUsername(username);
-
-		// User data
-		model.put("nama", user.getNama());
-		model.put("email", user.getEmail());
-		model.put("role", user.getRole());
-
-		// Hotels data
+		injectUserData(req, model);
 		model.put("hotels", hotelService.findAllHotels());
-
-		// Navigation and metadata
 		model.put("title", "Home");
 		model.put("currentPath", req.pathInfo());
 		model.put("navLinks", getClientNavLinks());
-
 		return new ModelAndView(model, "pages/client/home");
 	}
 
 	public ModelAndView hotelRooms(Request req, Response res) {
 		HashMap<String, Object> model = new HashMap<>();
 		long id = Long.parseLong(req.params("id"));
+		injectUserData(req, model);
 		model.put("hotelId", id);
 		model.put("rooms", hotelService.findRoomsByHotelId(id));
+		model.put("title", "Hotel Rooms");
 		model.put("currentPath", req.pathInfo());
 		model.put("navLinks", getClientNavLinks());
 		return new ModelAndView(model, "pages/client/hotel-rooms");
@@ -83,14 +78,12 @@ public class ClientViewController {
 
 	public ModelAndView confirmBooking(Request req, Response res) {
 		HashMap<String, Object> model = new HashMap<>();
-		String username = JwtUtil.getUsername(req.session().attribute("token"));
-		User user = userService.getUserByUsername(username);
-		model.put("user", user);
+		injectUserData(req, model);
 		long roomId = Long.parseLong(req.params("roomId"));
 		HotelRoom room = roomService.getRoomById(roomId);
 		model.put("room", room);
 		model.put("hotel", hotelService.findHotelById(room.getHotelId()));
-
+		model.put("title", "Confirm Booking");
 		model.put("currentPath", req.pathInfo());
 		model.put("navLinks", getClientNavLinks());
 		return new ModelAndView(model, "pages/client/booking");
@@ -98,11 +91,14 @@ public class ClientViewController {
 
 	public ModelAndView activeBookings(Request req, Response res) {
 		HashMap<String, Object> model = new HashMap<>();
-		String username = JwtUtil.getUsername(req.session().attribute("token"));
-		User user = userService.getUserByUsername(username);
-		model.put("user", user);
+		injectUserData(req, model);
+        String username = JwtUtil.getUsername(req.session().attribute("token"));
+        User user = userService.getUserByUsername(username);
 		List<BookedHistory> activeBookings = bookingService.getActiveBookingsForUser(user.getId());
 		model.put("activeBookings", activeBookings);
+		model.put("title", "Active Bookings");
+		model.put("currentPath", req.pathInfo());
+		model.put("navLinks", getClientNavLinks());
 		return new ModelAndView(model, "pages/client/active-bookings");
 	}
 }

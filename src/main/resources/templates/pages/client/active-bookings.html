@@ -1,24 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/client}">
-<div layout:fragment="content">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/client}">
 
-    <h2>Booking Aktif</h2>
-    <p>Halo, <span th:text="${user.nama}"></span></p>
+<head>
+    <link rel="stylesheet" href="/css/card.css" />
+</head>
+<body>
+    <div layout:fragment="content" class="content">
+        <div th:replace="~{components/heading-main :: headingMain('Bookings Active')}"></div>
+        <div th:if="${#lists.isEmpty(activeBookings)}">
+            <p class="no-bookings-active">There are no active bookings for <b><span th:text="${user.nama}"></span></b> at this time</p>
+        </div>
+        <div th:if="${!#lists.isEmpty(activeBookings)}">
+            <div class="booking-wrapper">
+                <div th:each="booking : ${activeBookings}">
+                    <div class="booking-card">
+                        <div class="booking-left">
+                            <h3 th:text="${booking.hotelName}"></h3>
+                            <p><span th:text="${booking.roomNumber}"></span></p>
+                            <p>Check-in : <span th:text="${booking.checkinDate}"></span></p>
+                            <p>Check-out : <span th:text="${booking.checkoutDate}"></span></p>
+                        </div>
 
-    <div th:if="${#lists.isEmpty(activeBookings)}">
-        <p>Tidak ada booking aktif saat ini.</p>
+                        <div class="booking-right">
+                            <span class="status" th:text="${booking.bookedStatus}"
+                                th:classappend="${booking.bookedStatus}">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div th:if="${!#lists.isEmpty(activeBookings)}">
-        <div th:each="booking : ${activeBookings}">
-        <div th:replace="~{components/card :: card(
-            ${booking.hotelName} + ' - Kamar ' + ${booking.roomNumber},
-            'Check-in: ' + ${booking.checkinDate} + ', Check-out: ' + ${booking.checkoutDate} + ', Status: ' + ${booking.bookedStatus}
-        )}"></div>
-    </div>
-    </div>
-
-</div>
+</body>
 </html>

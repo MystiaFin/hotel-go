@@ -13,18 +13,18 @@ public class BookingController {
     public Object createBooking(Request req, Response res) {
         long userId = Long.parseLong(req.queryParams("userId"));
         long roomId = Long.parseLong(req.queryParams("roomId"));
-
-        boolean success = bookingService.createBooking(userId, roomId);
-
-        res.type("application/json");
-
-        if (success) {
-            res.status(201);
-            return "{\"message\": \"Kamar berhasil dipesan, silahkan bayar dan konfirmasi ke resepsionis untuk kamar yang anda pilih dalam jangka waktu maksimal 1 jam\"}";
+        String msg = bookingService.createBooking(userId, roomId);
+        if (msg.startsWith("SUCCESS")) {
+            req.session().attribute("popupMessage", msg.substring(8));
+            req.session().attribute("popupType", "success");
+            req.session().attribute("redirectUrl", "/");
         } else {
-            res.status(400);
-            return "{\"message\": \"Gagal memesan kamar\"}";
+            req.session().attribute("popupMessage", msg.substring(7));
+            req.session().attribute("popupType", "error");
+            req.session().attribute("redirectUrl", "/booking/confirm/" + roomId);
         }
+        res.redirect(req.session().attribute("redirectUrl"));
+        return null;
     }
 
     public Object getActiveBookings(Request req, Response res) {
