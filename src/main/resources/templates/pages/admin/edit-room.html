@@ -11,6 +11,7 @@
               th:action="'/admin/rooms/' + ${room.id} + '/update'"
               method="post"
               style="display:flex; flex-direction:column; gap:18px;">
+            <input type="hidden" name="hotelId" th:value="${room.hotelId}">
             <label class="admin-form-label">
                 Room Number
                 <input class="admin-form-input" type="text" name="roomNumber" th:value="${room.roomNumber}" required>
