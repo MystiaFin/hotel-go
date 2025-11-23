@@ -82,4 +82,58 @@ public class BookingRepository {
                     .executeAndFetch(BookedHistory.class);
         }
     }
+
+    public List<BookedHistory> findBookingsPaginated(int limit, int offset) {
+        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.nama AS userName, " +
+                     "b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, " +
+                     "r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName " +
+                     "FROM booked_histories b " +
+                     "JOIN users u ON b.user_id = u.id " +
+                     "JOIN hotel_rooms r ON b.room_id = r.id " +
+                     "JOIN hotels h ON r.hotel_id = h.id " +
+                     "ORDER BY b.id ASC " +
+                     "LIMIT :limit OFFSET :offset";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("limit", limit)
+                    .addParameter("offset", offset)
+                    .executeAndFetch(BookedHistory.class);
+        }
+    }
+
+    public int countAllBookings() {
+        String sql = "SELECT COUNT(*) FROM booked_histories";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql).executeScalar(Integer.class);
+        }
+    }
+
+    public List<BookedHistory> searchBookingsPaginated(String keyword, int limit, int offset) {
+        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.nama AS userName, " +
+                     "b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, " +
+                     "r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName " +
+                     "FROM booked_histories b " +
+                     "JOIN users u ON b.user_id = u.id " +
+                     "JOIN hotel_rooms r ON b.room_id = r.id " +
+                     "JOIN hotels h ON r.hotel_id = h.id " +
+                     "WHERE LOWER(u.nama) LIKE :keyword OR r.room_number LIKE :keyword " +
+                     "ORDER BY b.id ASC " +
+                     "LIMIT :limit OFFSET :offset";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("keyword", "%" + keyword.toLowerCase() + "%")
+                    .addParameter("limit", limit)
+                    .addParameter("offset", offset)
+                    .executeAndFetch(BookedHistory.class);
+        }
+    }
+
+    public int countSearchBookings(String keyword) {
+        String sql = "SELECT COUNT(*) FROM booked_histories b JOIN users u ON b.user_id = u.id JOIN hotel_rooms r ON b.room_id = r.id WHERE LOWER(u.nama) LIKE :keyword OR r.room_number LIKE :keyword";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("keyword", "%" + keyword.toLowerCase() + "%")
+                    .executeScalar(Integer.class);
+        }
+    }
 }

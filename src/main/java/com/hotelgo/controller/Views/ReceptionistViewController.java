@@ -45,17 +45,49 @@ public class ReceptionistViewController {
             model.put("user", user);
         }
 
+        // default pagination values
+        int page = 1;
+        final int limit = 10; // fixed as you requested (option A)
+
+        try {
+            String pageParam = req.queryParams("page");
+            if (pageParam != null) {
+                page = Integer.parseInt(pageParam);
+            }
+        } catch (NumberFormatException e) {
+            page = 1;
+        }
+
         String searchQuery = req.queryParams("search");
         List<BookedHistory> bookings;
+        int totalItems = 0;
 
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-            bookings = bookingService.searchBookings(searchQuery);
-            model.put("searchQuery", searchQuery);
+            bookings = bookingService.searchBookingsPaginated(searchQuery.trim(), page, limit);
+            totalItems = bookingService.getSearchBookingsCount(searchQuery.trim());
+            model.put("searchQuery", searchQuery.trim());
         } else {
-            bookings = bookingService.getAllBookings();
+            bookings = bookingService.getBookingsPaginated(page, limit);
+            totalItems = bookingService.getTotalBookingsCount();
+        }
+
+        int totalPages = (int) Math.ceil((double) totalItems / limit);
+        if (totalPages < 1) totalPages = 1;
+        if (page > totalPages) page = totalPages;
+
+        // create page numbers list for view
+        List<Integer> pages = new ArrayList<>();
+        for (int i = 1; i <= totalPages; i++) {
+            pages.add(i);
         }
 
         model.put("bookings", bookings);
+        model.put("currentPage", page);
+        model.put("limit", limit);
+        model.put("totalItems", totalItems);
+        model.put("totalPages", totalPages);
+        model.put("pages", pages);
+
         model.put("currentPath", req.pathInfo());
         model.put("navLinks", getReceptionistLinks());
         model.put("title", "Receptionist Dashboard");
