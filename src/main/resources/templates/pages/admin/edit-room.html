@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin}">
+<body>
+<div layout:fragment="content">
+    <h1 class="page-title">Edit Room</h1>
+
+    <div class="admin-form-card">
+        <form th:id="'updateForm-' + ${room.id}"
+              th:action="'/admin/rooms/' + ${room.id} + '/update'"
+              method="post"
+              style="display:flex; flex-direction:column; gap:18px;">
+            <input type="hidden" name="hotelId" th:value="${room.hotelId}">
+            <label class="admin-form-label">
+                Room Number
+                <input class="admin-form-input" type="text" name="roomNumber" th:value="${room.roomNumber}" required>
+            </label>
+            <label class="admin-form-label">
+                Price
+                <input class="admin-form-input" type="number" name="price" th:value="${room.price}" required>
+            </label>
+            <button type="button"
+                    class="btn btn-confirm w-full"
+                    th:onclick="'confirmUpdate(' + ${room.id} + ')'">
+                Update Room
+            </button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmUpdate(id) {
+            Swal.fire({
+                title: "Confirm Update",
+                text: "Are you sure you want to save these changes?",
+                icon: "question",
+                showCancelButton: true,
+                buttonsStyling: false,
+
+                confirmButtonText: '<button class="btn btn-confirm">Update</button>',
+                cancelButtonText: '<button class="btn btn-secondary">Cancel</button>',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("updateForm-" + id).submit();
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

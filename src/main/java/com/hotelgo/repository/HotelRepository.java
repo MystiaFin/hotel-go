@@ -35,4 +35,40 @@ public class HotelRepository {
                     .executeAndFetchFirst(Hotel.class);
         }
     }
+
+    public Long createHotel(String name, String location) {
+        String sql = "INSERT INTO hotels (name, location) VALUES (:name, :location)";
+        try (Connection con = sql2o.open()) {
+            Object keyObj = con.createQuery(sql, true)
+                    .addParameter("name", name)
+                    .addParameter("location", location)
+                    .executeUpdate()
+                    .getKey();
+            return keyObj == null ? null : ((Number) keyObj).longValue();
+        }
+    }
+
+    public boolean updateHotel(Long id, String name, String location) {
+        String sql = "UPDATE hotels SET name = :name, location = :location WHERE id = :id";
+        try (Connection con = sql2o.open()) {
+            int updated = con.createQuery(sql)
+                    .addParameter("name", name)
+                    .addParameter("location", location)
+                    .addParameter("id", id)
+                    .executeUpdate()
+                    .getResult();
+            return updated > 0;
+        }
+    }
+
+    public boolean deleteHotel(Long id) {
+        String sql = "DELETE FROM hotels WHERE id = :id";
+        try (Connection con = sql2o.open()) {
+            int deleted = con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate()
+                    .getResult();
+            return deleted > 0;
+        }
+    }
 }
