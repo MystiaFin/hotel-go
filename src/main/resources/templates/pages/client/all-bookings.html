@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/client}">
+
+<head>
+    <link rel="stylesheet" href="/css/card.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div layout:fragment="content" class="content">
+        <div th:replace="~{components/heading-main :: headingMain('Booking History')}"></div>
+        <div th:if="${#lists.isEmpty(allBookings)}">
+            <p class="no-bookings-active">
+                No bookings found for <b><span th:text="${user.nama}"></span></b> at the moment
+            </p>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(allBookings)}">
+            <div class="filter-container">
+                <select id="statusFilter">
+                    <option value="ALL">All</option>
+                    <option value="PENDING">Pending</option>
+                    <option value="CANCEL">Cancel</option>
+                    <option value="COMPLETE">Complete</option>
+                    <option value="EXPIRED">Expired</option>
+                </select>
+            </div>
+
+            <div class="booking-wrapper">
+                <div th:each="booking : ${allBookings}">
+                    <div class="booking-card" th:classappend="${booking.bookedStatus}">
+                        <div class="booking-left">
+                            <h3 th:text="${booking.hotelName}"></h3>
+                            <p><span th:text="${booking.roomNumber}"></span></p>
+                            <p>Check-in : <span th:text="${booking.checkinDate}"></span></p>
+                            <p>Check-out : <span th:text="${booking.checkoutDate}"></span></p>
+                        </div>
+
+                        <div class="booking-right">
+                            <form th:id="'cancelForm-' + ${booking.id}" th:action="|/api/booking/cancel/${booking.id}|"
+                                method="post" style="display:none;">
+                            </form>
+                            <a class="cancel-btn" th:if="${booking.bookedStatus == 'PENDING'}" href="javascript:void(0)"
+                                th:attr="onclick=|confirmCancel(${booking.id})|">
+                                Cancel
+                            </a>
+                            <span class="status" th:text="${booking.bookedStatus}"
+                                th:classappend="${booking.bookedStatus}">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div layout:fragment="scripts">
+        <script>
+            function confirmCancel(id) {
+                Swal.fire({
+                    title: "Cancel Booking?",
+                    text: "This booking will be canceled and cannot be undone.",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                    showCancelButton: true,
+                    customClass: {
+                        confirmButton: 'swal2-confirm-btn',
+                        cancelButton: 'swal2-cancel-btn'
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("cancelForm-" + id).submit();
+                    }
+                });
+            }
+
+            document.getElementById("statusFilter").addEventListener("change", function () {
+                const value = this.value;
+                const cards = document.querySelectorAll(".booking-card");
+
+                cards.forEach(card => {
+                    const status =
+                        card.classList.contains("PENDING") ? "PENDING" :
+                            card.classList.contains("CANCEL") ? "CANCEL" :
+                                card.classList.contains("EXPIRED") ? "EXPIRED" :
+                                    "COMPLETE";
+
+                    const parent = card.parentElement;
+                    if (value === "ALL" || value === status) {
+                        parent.classList.remove("hidden");
+                    } else {
+                        parent.classList.add("hidden");
+                    }
+                });
+            });
+        </script>
+    </div>
+</body>
+
+</html>

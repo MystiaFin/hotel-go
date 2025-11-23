@@ -38,7 +38,7 @@ public class ClientViewController {
 		List<SideNavLinks> links = new ArrayList<>();
 		links.add(new SideNavLinks("/", "Home"));
 		links.add(new SideNavLinks("/booking/active", "Bookings Active"));
-		links.add(new SideNavLinks("/history", "History"));
+		links.add(new SideNavLinks("/history", "Bookings History"));
 		return links;
 	}
 
@@ -94,11 +94,24 @@ public class ClientViewController {
 		injectUserData(req, model);
         String username = JwtUtil.getUsername(req.session().attribute("token"));
         User user = userService.getUserByUsername(username);
-		List<BookedHistory> activeBookings = bookingService.getActiveBookingsForUser(user.getId());
+		List<BookedHistory> activeBookings = bookingService.getActiveBookings(user.getId());
 		model.put("activeBookings", activeBookings);
 		model.put("title", "Active Bookings");
 		model.put("currentPath", req.pathInfo());
 		model.put("navLinks", getClientNavLinks());
 		return new ModelAndView(model, "pages/client/active-bookings");
+	}
+
+	public ModelAndView allBookings(Request req, Response res) {
+		HashMap<String, Object> model = new HashMap<>();
+		injectUserData(req, model);
+        String username = JwtUtil.getUsername(req.session().attribute("token"));
+        User user = userService.getUserByUsername(username);
+		List<BookedHistory> allBookings = bookingService.getAllBookings(user.getId());
+		model.put("allBookings", allBookings);
+		model.put("title", "Bookings History");
+		model.put("currentPath", req.pathInfo());
+		model.put("navLinks", getClientNavLinks());
+		return new ModelAndView(model, "pages/client/all-bookings");
 	}
 }

@@ -149,7 +149,7 @@
 }
 /* Confirm Booking */
 
-/* Bookings Active */
+/* Bookings History */
 .booking-wrapper {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -167,7 +167,19 @@
     padding: 20px;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
-    border-left: 6px solid var(--color-green);
+    border-left: 6px solid #1b8c32;
+}
+
+.booking-card.PENDING {
+    border-left: 6px solid #f0ad4e;
+}
+
+.booking-card.COMPLETE, .booking-card.EXPIRED {
+    border-left: 6px solid #c1c1c1;
+}
+
+.booking-card.CANCEL {
+    border-left: 6px solid #d9534f;
 }
 
 .booking-card:hover {
@@ -193,12 +205,39 @@
 	margin-top: 10px;
 }
 
-.status {
+.status, .cancel-btn {
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 14px;
     font-weight: bold;
-	background: #d4f7d9;
-    color: #1b8c32;
+	background: #1b8c32;
+    color: var(--color-white);
 }
-/* Bookings Active */
+
+.cancel-btn {
+    background: var(--color-red);
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.status.PENDING {
+    background-color: #f0ad4e;
+    color: var(--color-white);
+}
+
+.status.COMPLETE, .status.EXPIRED {
+    background-color: #c1c1c1;
+    color: var(--color-white);
+}
+
+.status.CANCEL {
+    background-color: #d9534f;
+    color: var(--color-white);
+}
+
+.status,
+.cancel-btn,
+.filter-container select {
+    text-transform: uppercase;
+}
+/* Bookings History */

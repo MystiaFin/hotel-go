@@ -43,5 +43,7 @@ public class ViewRoutes {
 				// Admin View Routes
 				get("/admin/dashboard", adminViewController::adminDashboard, engine);
 
+        before("/history", AuthMiddleware.authorize("CUSTOMER", "ADMIN", "RESEPSIONIS"));
+        get("/history", clientViewController::allBookings, engine);
     }
 }

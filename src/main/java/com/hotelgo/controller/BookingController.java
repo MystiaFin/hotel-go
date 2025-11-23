@@ -29,9 +29,33 @@ public class BookingController {
 
     public Object getActiveBookings(Request req, Response res) {
         Long userId = Long.parseLong(req.queryParams("userId"));
-        List<BookedHistory> bookings = bookingService.getActiveBookingsForUser(userId);
+        List<BookedHistory> bookings = bookingService.getActiveBookings(userId);
         res.type("application/json");
         res.status(200);
         return bookings;
+    }
+
+    public Object getBookings(Request req, Response res) {
+        Long userId = Long.parseLong(req.queryParams("userId"));
+        List<BookedHistory> bookings = bookingService.getAllBookings(userId);
+        res.type("application/json");
+        res.status(200);
+        return bookings;
+    }
+
+    public Object cancelBooking(Request req, Response res) {
+        Long id = Long.parseLong(req.params(":id"));
+        String msg = bookingService.cancelBooking(id);
+        if (msg.startsWith("SUCCESS")) {
+            req.session().attribute("popupMessage", msg.substring(8));
+            req.session().attribute("popupType", "success");
+            req.session().attribute("redirectUrl", "/history");
+        } else {
+            req.session().attribute("popupMessage", msg.substring(7));
+            req.session().attribute("popupType", "error");
+            req.session().attribute("redirectUrl", "/history");
+        }
+        res.redirect(req.session().attribute("redirectUrl"));
+        return null;
     }
 }
