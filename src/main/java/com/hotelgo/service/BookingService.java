@@ -24,4 +24,16 @@ public class BookingService {
     public List<BookedHistory> getActiveBookingsForUser(Long userId)  {
         return repository.getActiveBookingsByUser(userId);
     }
+
+    public List<BookedHistory> getAllBookings() {
+        return repository.findAllBookings();
+    }
+    
+    public void updateBookingStatus(long id, String status) {
+        repository.updateStatus(id, status);
+    }
+
+    public List<BookedHistory> searchBookings(String query) {
+        return repository.searchBookings(query);
+    }
 }

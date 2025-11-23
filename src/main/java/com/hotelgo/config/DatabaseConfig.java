@@ -12,12 +12,11 @@ import org.sql2o.Sql2o;
 public class DatabaseConfig {
 	private static Sql2o sql2o;
 
-	// Get database connection properties from environment variables
-	private static final String DB_HOST = System.getenv().getOrDefault("DB_HOST", "localhost");
-	private static final String DB_PORT = System.getenv().getOrDefault("DB_PORT", "3306");
-	private static final String DB_NAME = System.getenv().getOrDefault("DB_NAME", "hotelgo_db");
-	private static final String DB_USER = System.getenv().getOrDefault("DB_USER", "root");
-	private static final String DB_PASSWORD = System.getenv().getOrDefault("DB_PASSWORD", "password");
+    private static final String DB_HOST = "localhost";
+    private static final String DB_PORT = "3306";
+    private static final String DB_NAME = "hotelgo_db";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = ""; 
 
 	private static final String DB_URL = String.format(
 			"jdbc:mysql://%s:%s/%s?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true",

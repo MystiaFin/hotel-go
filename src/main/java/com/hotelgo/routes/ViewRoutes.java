@@ -4,6 +4,7 @@ import com.hotelgo.config.ThymeleafTemplateEngine;
 import com.hotelgo.controller.Views.ViewController;
 import com.hotelgo.controller.Views.ClientViewController;
 import com.hotelgo.controller.Views.AdminViewController;
+import com.hotelgo.controller.Views.ReceptionistViewController; 
 import com.hotelgo.middleware.AuthMiddleware;
 
 public class ViewRoutes {
@@ -12,6 +13,7 @@ public class ViewRoutes {
         ViewController viewController = new ViewController();
         ClientViewController clientViewController = new ClientViewController();
         AdminViewController adminViewController = new AdminViewController();
+        ReceptionistViewController receptionistViewController = new ReceptionistViewController(); 
         
 				// Client View Routes
         get("/login", viewController::login, engine);
@@ -40,8 +42,11 @@ public class ViewRoutes {
             return null;
         });
 				
-				// Admin View Routes
-				get("/admin/dashboard", adminViewController::adminDashboard, engine);
+    // Admin View Routes
+		get("/admin/dashboard", adminViewController::adminDashboard, engine);
+
+        before("/receptionist/*", AuthMiddleware.authorize("RESEPSIONIS"));
+        get("/receptionist/dashboard", receptionistViewController::dashboard, engine);
 
     }
 }
