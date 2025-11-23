@@ -24,6 +24,9 @@ public class ApiRoutes {
         path("/api/booking", () -> {
             post("/create", bookingController::createBooking);
             get("/active", bookingController::getActiveBookings);
+            
+            post("/approve", bookingController::approveBooking);
+            post("/cancel", bookingController::cancelBooking);
         });
 	}
 }

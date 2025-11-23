@@ -19,6 +19,7 @@ public class DatabaseConfig {
 	private static final String DB_USER = System.getenv().getOrDefault("DB_USER", "root");
 	private static final String DB_PASSWORD = System.getenv().getOrDefault("DB_PASSWORD", "Aryanto30_");
 
+
 	private static final String DB_URL = String.format(
 			"jdbc:mysql://%s:%s/%s?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true",
 			DB_HOST, DB_PORT, DB_NAME);

@@ -49,4 +49,37 @@ public class BookingRepository {
             return count > 0;
         }
     }
+
+    public List<BookedHistory> findAllBookings() {
+        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.nama AS userName, b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName FROM booked_histories b JOIN users u ON b.user_id = u.id JOIN hotel_rooms r ON b.room_id = r.id JOIN hotels h ON r.hotel_id = h.id ORDER BY b.id ASC";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql).executeAndFetch(BookedHistory.class);
+        }
+    }
+
+    public void updateStatus(long id, String status) {
+        String sql = "UPDATE booked_histories SET booked_status = :status WHERE id = :id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                .addParameter("status", status)
+                .addParameter("id", id)
+                .executeUpdate();
+        }
+    }
+
+    public List<BookedHistory> searchBookings(String keyword) {
+        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.nama AS userName, b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName " +
+                     "FROM booked_histories b " +
+                     "JOIN users u ON b.user_id = u.id " +
+                     "JOIN hotel_rooms r ON b.room_id = r.id " +
+                     "JOIN hotels h ON r.hotel_id = h.id " +
+                     "WHERE LOWER(u.nama) LIKE :keyword OR r.room_number LIKE :keyword " +
+                     "ORDER BY b.id ASC";
+        
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("keyword", "%" + keyword.toLowerCase() + "%")
+                    .executeAndFetch(BookedHistory.class);
+        }
+    }
 }

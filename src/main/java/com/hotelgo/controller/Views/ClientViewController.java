@@ -34,71 +34,82 @@ public class ClientViewController {
 		this.bookingService = new BookingService();
 	}
 
-	private List<SideNavLinks> getClientNavLinks() {
+	private List<SideNavLinks> getClientNavLinks(String role) {
 		List<SideNavLinks> links = new ArrayList<>();
 		links.add(new SideNavLinks("/", "Home"));
 		links.add(new SideNavLinks("/booking/active", "Bookings Active"));
 		links.add(new SideNavLinks("/history", "History"));
+
+        if ("RESEPSIONIS".equalsIgnoreCase(role)) {
+            links.add(new SideNavLinks("/receptionist/dashboard", "Receptionist Dashboard"));
+        }
 		return links;
 	}
 
-	private void injectUserData(Request req, HashMap<String, Object> model) {
+	private User getUserFromSession(Request req) {
         String token = req.session().attribute("token");
         if (token != null && !token.isEmpty()) {
             String username = JwtUtil.getUsername(token);
-            User user = userService.getUserByUsername(username);
-            if (user != null) {
-                model.put("user", user);
-            }
+            return userService.getUserByUsername(username);
+        }
+        return null;
+    }
+
+	private void injectCommonData(Request req, HashMap<String, Object> model) {
+        User user = getUserFromSession(req);
+        if (user != null) {
+            model.put("user", user);
+            model.put("navLinks", getClientNavLinks(user.getRole()));
+        } else {
+            model.put("navLinks", getClientNavLinks("CUSTOMER"));
         }
 		addPopupFromSession(req, model);
     }
 
 	public ModelAndView home(Request req, Response res) {
 		HashMap<String, Object> model = new HashMap<>();
-		injectUserData(req, model);
+		injectCommonData(req, model); 
 		model.put("hotels", hotelService.findAllHotels());
 		model.put("title", "Home");
 		model.put("currentPath", req.pathInfo());
-		model.put("navLinks", getClientNavLinks());
 		return new ModelAndView(model, "pages/client/home");
 	}
 
 	public ModelAndView hotelRooms(Request req, Response res) {
 		HashMap<String, Object> model = new HashMap<>();
+		injectCommonData(req, model);
 		long id = Long.parseLong(req.params("id"));
-		injectUserData(req, model);
 		model.put("hotelId", id);
 		model.put("rooms", hotelService.findRoomsByHotelId(id));
 		model.put("title", "Hotel Rooms");
 		model.put("currentPath", req.pathInfo());
-		model.put("navLinks", getClientNavLinks());
 		return new ModelAndView(model, "pages/client/hotel-rooms");
 	}
 
 	public ModelAndView confirmBooking(Request req, Response res) {
 		HashMap<String, Object> model = new HashMap<>();
-		injectUserData(req, model);
+		injectCommonData(req, model);
 		long roomId = Long.parseLong(req.params("roomId"));
 		HotelRoom room = roomService.getRoomById(roomId);
 		model.put("room", room);
 		model.put("hotel", hotelService.findHotelById(room.getHotelId()));
 		model.put("title", "Confirm Booking");
 		model.put("currentPath", req.pathInfo());
-		model.put("navLinks", getClientNavLinks());
 		return new ModelAndView(model, "pages/client/booking");
 	}
 
 	public ModelAndView activeBookings(Request req, Response res) {
 		HashMap<String, Object> model = new HashMap<>();
-		injectUserData(req, model);
-        String username = JwtUtil.getUsername(req.session().attribute("token"));
-        User user = userService.getUserByUsername(username);
-		List<BookedHistory> activeBookings = bookingService.getActiveBookingsForUser(user.getId());
-		model.put("activeBookings", activeBookings);
+		injectCommonData(req, model);
+        
+        User user = (User) model.get("user");
+        if (user != null) {
+            List<BookedHistory> activeBookings = bookingService.getActiveBookingsForUser(user.getId());
+            model.put("activeBookings", activeBookings);
+        }
+        
 		model.put("title", "Active Bookings");
 		model.put("currentPath", req.pathInfo());
-		model.put("navLinks", getClientNavLinks());
 		return new ModelAndView(model, "pages/client/active-bookings");
 	}
 }

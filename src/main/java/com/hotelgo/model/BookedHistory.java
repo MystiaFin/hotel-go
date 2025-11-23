@@ -13,6 +13,7 @@ public class BookedHistory {
   private Long id;
   private Long roomId;
   private Long userId;
+  private String userName;
   private String bookedStatus;
   private String checkinDate;
   private String checkoutDate;
