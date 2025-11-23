@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin}">
+<body>
+<div layout:fragment="content">
+    <h1 class="page-title">Create New Hotel</h1>
+
+    <div class="admin-form-card">
+        <form id="createForm"
+              action="/admin/hotels/store"
+              method="post"
+              style="display:flex; flex-direction:column; gap:18px;">
+            <label class="admin-form-label">
+                Hotel Name
+                <input class="admin-form-input" type="text" name="name" required>
+            </label>
+            <label class="admin-form-label">
+                Location
+                <input class="admin-form-input" type="text" name="location" required>
+            </label>
+            <button type="button"
+                    class="btn btn-confirm w-full"
+                    onclick="confirmCreate()">
+                Create Hotel
+            </button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmCreate() {
+            Swal.fire({
+                title: "Create New Hotel?",
+                text: "This hotel will be added to the system.",
+                icon: "question",
+                showCancelButton: true,
+                buttonsStyling: false,
+
+                confirmButtonText: '<button class="btn btn-confirm">Create</button>',
+                cancelButtonText: '<button class="btn btn-secondary">Cancel</button>',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("createForm").submit();
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

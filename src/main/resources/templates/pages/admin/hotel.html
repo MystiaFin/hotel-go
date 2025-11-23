@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin}">
+<body>
+<div layout:fragment="content">
+    <h1 class="page-title">Hotel Management</h1>
+
+    <a href="/admin/hotels/create" class="btn btn-confirm" style="margin-bottom: 15px; display:inline-block;">
+        + Create New Hotel
+    </a>
+
+    <div class="admin-hotel-grid">
+        <div class="admin-hotel-card" th:each="hotel : ${hotels}">
+            <h3 th:text="${hotel.name}"></h3>
+            <p th:text="${hotel.location}"></p>
+            <div class="admin-card-actions">
+                <a th:href="'/admin/hotels/' + ${hotel.id} + '/edit'" class="btn btn-secondary">
+                    Edit
+                </a>
+                <form th:id="'deleteForm-' + ${hotel.id}" 
+                    th:action="'/admin/hotels/' + ${hotel.id} + '/delete'" 
+                    method="post">
+                    <button type="button" 
+                        class="btn btn-reject"
+                        th:onclick="'confirmDelete(' + ${hotel.id} + ')'"> Delete
+                    </button>
+                </form>
+                <a th:href="'/admin/hotels/' + ${hotel.id} + '/rooms'" class="btn btn-confirm">
+                    Rooms
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This hotel will be permanently deleted!",
+                icon: "warning",
+                showCancelButton: true,
+                buttonsStyling: false,
+
+                confirmButtonText: '<button class="btn btn-reject">Delete</button>',
+                cancelButtonText: '<button class="btn btn-secondary">Cancel</button>',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("deleteForm-" + id).submit();
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+</html>
