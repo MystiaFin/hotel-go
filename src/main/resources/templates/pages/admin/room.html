@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin}">
+<body>
+<div layout:fragment="content">
+    <h1 class="page-title" th:text="${hotel.name} + ' – Room Management'"></h1>
+
+    <a th:href="'/admin/hotels/' + ${hotel.id} + '/rooms/new'"
+       class="btn btn-confirm"
+       style="margin-bottom: 15px; display:inline-block;">
+        + Create New Room
+    </a>
+    
+    <div class="admin-hotel-grid">
+        <div class="admin-hotel-card" th:each="room : ${rooms}">
+            <h3>
+                Room 
+                <span th:text="${room.roomNumber}"></span>
+            </h3>
+            <p>
+                Price: Rp 
+                <span th:text="${room.price}"></span>
+            </p>
+            <p>
+                Status:
+                <span th:text="${room.available} ? 'Available' : 'Not Available'"></span>
+            </p>
+            <div class="admin-card-actions">
+                <a th:href="'/admin/rooms/' + ${room.id} + '/edit'"
+                   class="btn btn-secondary">
+                    Edit
+                </a>
+                <form th:id="'deleteForm-' + ${room.id}"
+                      th:action="'/admin/rooms/' + ${room.id} + '/delete'"
+                      method="post">
+                    <input type="hidden" name="hotelId" th:value="${hotel.id}">
+                    <button type="button"
+                            class="btn btn-reject"
+                            th:onclick="'confirmDelete(' + ${room.id} + ')'">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This room will be permanently deleted!",
+                icon: "warning",
+                showCancelButton: true,
+                buttonsStyling: false,
+
+                confirmButtonText: '<button class="btn btn-reject">Delete</button>',
+                cancelButtonText: '<button class="btn btn-secondary">Cancel</button>',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("deleteForm-" + id).submit();
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

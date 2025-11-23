@@ -20,4 +20,16 @@ public class HotelService {
     public Hotel findHotelById(long hotelId) {
         return hotelRepo.getHotelById(hotelId);
     }
+
+    public Long createHotel(String name, String location) {
+        return hotelRepo.createHotel(name, location);
+    }
+
+    public boolean updateHotel(Long id, String name, String location) {
+        return hotelRepo.updateHotel(id, name, location);
+    }
+
+    public boolean deleteHotel(Long id) {
+        return hotelRepo.deleteHotel(id);
+    }
 }

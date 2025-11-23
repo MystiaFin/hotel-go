@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin}">
+<body>
+<div layout:fragment="content">
+    <h1 class="page-title">Create Room</h1>
+
+    <div class="admin-form-card">
+        <form id="createRoomForm"
+              th:action="'/admin/hotels/' + ${hotelId} + '/rooms/create'"
+              method="post"
+              style="display:flex; flex-direction:column; gap:18px;">
+
+            <label class="admin-form-label">
+                Room Number
+                <input class="admin-form-input" type="text" name="roomNumber" required>
+            </label>
+
+            <label class="admin-form-label">
+                Price
+                <input class="admin-form-input" type="number" name="price" required>
+            </label>
+
+            <button type="button"
+                    class="btn btn-confirm w-full"
+                    onclick="confirmCreate()">
+                Create Room
+            </button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmCreate() {
+            Swal.fire({
+                title: "Confirm Create",
+                text: "Are you sure you want to add this room?",
+                icon: "question",
+                showCancelButton: true,
+                buttonsStyling: false,
+
+                confirmButtonText: '<button class="btn btn-confirm">Create</button>',
+                cancelButtonText: '<button class="btn btn-secondary">Cancel</button>',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("createRoomForm").submit();
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

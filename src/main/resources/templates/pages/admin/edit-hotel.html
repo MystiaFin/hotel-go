@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin}">
+<body>
+<div layout:fragment="content">
+    <h1 class="page-title">Edit Hotel</h1>
+
+    <div class="admin-form-card">
+        <form th:id="'updateForm-' + ${hotel.id}"
+              th:action="'/admin/hotels/' + ${hotel.id} + '/update'"
+              method="post"
+              style="display:flex; flex-direction:column; gap:18px;">
+            <label class="admin-form-label">
+                Hotel Name
+                <input class="admin-form-input" type="text" name="name" th:value="${hotel.name}" required>
+            </label>
+            <label class="admin-form-label">
+                Location
+                <input class="admin-form-input" type="text" name="location" th:value="${hotel.location}" required>
+            </label>
+            <button type="button"
+                    class="btn btn-confirm w-full"
+                    th:onclick="'confirmUpdate(' + ${hotel.id} + ')'">
+                Update Hotel
+            </button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmUpdate(id) {
+            Swal.fire({
+                title: "Confirm Update",
+                text: "Are you sure you want to save these changes?",
+                icon: "question",
+                showCancelButton: true,
+                buttonsStyling: false,
+
+                confirmButtonText: '<button class="btn btn-confirm">Update</button>',
+                cancelButtonText: '<button class="btn btn-secondary">Cancel</button>',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("updateForm-" + id).submit();
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

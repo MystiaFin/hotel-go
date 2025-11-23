@@ -1,16 +1,19 @@
 <!doctype html>
 <html
   xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
->
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   <head>
     <title th:text="${title}">Admin</title>
+    <link rel="stylesheet" href="/css/colorschemes.css">
     <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/admin/hotel.css">
   </head>
   <body>
     <div th:replace="~{components/sidebar :: sidebar(${navlinks}, ${currentpath})}"></div>
     <main>
       <div layout:fragment="content"></div>
     </main>
+    <div th:replace="components/popup :: popup"></div>
   </body>
 </html>
