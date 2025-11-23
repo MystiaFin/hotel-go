@@ -52,7 +52,6 @@ public class ViewRoutes {
         post("/admin/hotels/:id/update", adminViewController::updateHotel);
         post("/admin/hotels/:id/delete", adminViewController::deleteHotel);
 
-        get("/admin/rooms", adminViewController::roomsByHotel, engine);
         get("/admin/hotels/:hotelId/rooms", adminViewController::roomsByHotel, engine);
         get("/admin/hotels/:hotelId/rooms/new", adminViewController::createRoomForm, engine);
         post("/admin/hotels/:hotelId/rooms/create", adminViewController::createRoom);
