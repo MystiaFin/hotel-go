@@ -25,7 +25,7 @@ public class ViewController {
 		List<SideNavLinks> links = new ArrayList<>();
 		links.add(new SideNavLinks("/", "Home"));
 		links.add(new SideNavLinks("/booking/active", "Bookings Active"));
-		links.add(new SideNavLinks("/history", "History"));
+		links.add(new SideNavLinks("/history", "Bookings History"));
 		return links;
 	}
 

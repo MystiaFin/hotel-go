@@ -31,15 +31,6 @@ public class BookingRepository {
         }
     }
 
-    public List<BookedHistory> getActiveBookingsByUser(Long userId) {
-        String sql = "SELECT b.id AS id, b.room_id AS roomId, b.user_id AS userId, b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, b.created_at AS createdAt, b.updated_at AS updatedAt, r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName, h.location AS hotelLocation FROM booked_histories b JOIN hotel_rooms r ON b.room_id = r.id JOIN hotels h ON r.hotel_id = h.id WHERE b.user_id = :userId AND b.booked_status = 'ACTIVE' ORDER BY b.created_at DESC";
-        try (Connection con = sql2o.open()) {
-            return con.createQuery(sql)
-                    .addParameter("userId", userId)
-                    .executeAndFetch(BookedHistory.class);
-        }
-    }
-
     public boolean isRoomBooked(long roomId) {
         String sql = "SELECT COUNT(*) FROM booked_histories WHERE room_id = :roomId AND booked_status IN ('PENDING', 'ACTIVE') AND (expiration_date IS NULL OR expiration_date > NOW())";
         try (Connection con = sql2o.open()) {
@@ -47,6 +38,42 @@ public class BookingRepository {
                         .addParameter("roomId", roomId)
                         .executeScalar(Integer.class);
             return count > 0;
+        }
+    }
+
+    public List<BookedHistory> getBookings(Long userId, String status, boolean excludeActive) {
+        String sql = "SELECT b.id AS id, b.room_id AS roomId, b.user_id AS userId, b.booked_status AS bookedStatus, " +
+                "b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, b.created_at AS createdAt, " +
+                "b.updated_at AS updatedAt, r.room_number AS roomNumber, r.price AS roomPrice, " +
+                "h.name AS hotelName, h.location AS hotelLocation " +
+                "FROM booked_histories b " +
+                "JOIN hotel_rooms r ON b.room_id = r.id " +
+                "JOIN hotels h ON r.hotel_id = h.id " +
+                "WHERE b.user_id = :userId ";
+
+        if (status != null && !status.isEmpty()) {
+            sql += "AND b.booked_status = :status ";
+        } else {
+            sql += "AND b.booked_status != 'ACTIVE' ";
+        }
+
+        sql += "ORDER BY b.created_at DESC";
+
+        try (Connection con = sql2o.open()) {
+            var query = con.createQuery(sql).addParameter("userId", userId);
+            if (status != null && !status.isEmpty()) {
+                query.addParameter("status", status);
+            }
+            return query.executeAndFetch(BookedHistory.class);
+        }
+    }
+
+    public boolean cancelBooking(Long id) {
+        try (Connection con = sql2o.open()) {
+            con.createQuery("UPDATE booked_histories SET booked_status = 'CANCEL' WHERE id = :id")
+                    .addParameter("id", id)
+                    .executeUpdate();
+            return true;
         }
     }
 }

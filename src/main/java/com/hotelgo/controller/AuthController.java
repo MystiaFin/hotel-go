@@ -46,6 +46,7 @@ public class AuthController {
             req.session().attribute("token", token);
             req.session().attribute("email", email);
             res.redirect("/");
+            return null;
         }
         res.redirect("/login");
         return null;

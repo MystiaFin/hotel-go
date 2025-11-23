@@ -78,3 +78,25 @@ main {
     color: var(--color-red);
 }
 
+.swal2-confirm-btn {
+    background-color: var(--color-green) !important;
+}
+
+.swal2-cancel-btn {
+    background-color: var(--color-red) !important;
+}
+
+.filter-container select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    transition: border .2s ease;
+    margin: 0px 0px 5px 10px;
+}
+
+.booking-wrapper>div.hidden {
+    display: none !important;
+}

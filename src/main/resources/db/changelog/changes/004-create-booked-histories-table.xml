@@ -66,7 +66,7 @@
 
     <!-- Add check constraint for booked_status enum values -->
     <sql> ALTER TABLE booked_histories ADD CONSTRAINT chk_booked_status CHECK (booked_status IN
-      ('PENDING', 'ACTIVE', 'CANCELLED', 'EXPIRED')) </sql>
+      ('PENDING', 'ACTIVE', 'CANCEL', 'EXPIRED', 'COMPLETE')) </sql>
 
     <!-- Add check constraint to ensure checkout_date is after checkin_date -->
     <sql> ALTER TABLE booked_histories ADD CONSTRAINT chk_checkout_after_checkin CHECK

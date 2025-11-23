@@ -39,6 +39,9 @@ public class ViewRoutes {
             res.redirect("/login");
             return null;
         });
+      
+        before("/history", AuthMiddleware.authorize("CUSTOMER", "ADMIN", "RESEPSIONIS"));
+        get("/history", clientViewController::allBookings, engine);
 				
 				// Admin View Routes
         before("/admin/*", AuthMiddleware.authorize("ADMIN"));
