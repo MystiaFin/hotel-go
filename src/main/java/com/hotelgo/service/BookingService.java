@@ -47,4 +47,32 @@ public class BookingService {
             return "ERROR: Failed to cancel booking";
         }
     }
+    
+    public void updateBookingStatus(long id, String status) {
+        repository.updateStatus(id, status);
+    }
+
+    public List<BookedHistory> searchBookings(String query) {
+        return repository.searchBookings(query);
+    }
+
+    public List<BookedHistory> getBookingsPaginated(int page, int limit) {
+        if (page < 1) page = 1;
+        int offset = (page - 1) * limit;
+        return repository.findBookingsPaginated(limit, offset);
+    }
+
+    public int getTotalBookingsCount() {
+        return repository.countAllBookings();
+    }
+
+    public List<BookedHistory> searchBookingsPaginated(String keyword, int page, int limit) {
+        if (page < 1) page = 1;
+        int offset = (page - 1) * limit;
+        return repository.searchBookingsPaginated(keyword, limit, offset);
+    }
+
+    public int getSearchBookingsCount(String keyword) {
+        return repository.countSearchBookings(keyword);
+    }
 }

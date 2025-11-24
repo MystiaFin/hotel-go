@@ -2,7 +2,9 @@ package com.hotelgo.routes;
 import static spark.Spark.*;
 import com.hotelgo.config.ThymeleafTemplateEngine;
 import com.hotelgo.controller.Views.ViewController;
+import com.hotelgo.controller.Views.AdminViewController;
 import com.hotelgo.controller.Views.ClientViewController;
+import com.hotelgo.controller.Views.ReceptionistViewController; 
 import com.hotelgo.middleware.AuthMiddleware;
 
 public class ViewRoutes {
@@ -10,7 +12,10 @@ public class ViewRoutes {
     public static void configure(ThymeleafTemplateEngine engine) {
         ViewController viewController = new ViewController();
         ClientViewController clientViewController = new ClientViewController();
-        				// Client View Routes
+        AdminViewController adminViewController = new AdminViewController();
+        ReceptionistViewController receptionistViewController = new ReceptionistViewController(); 
+        
+				// Client View Routes
         get("/login", viewController::login, engine);
         get("/register", viewController::register, engine);
         get("/forgot-password", viewController::forgotPassword, engine);
@@ -40,6 +45,9 @@ public class ViewRoutes {
         before("/history", AuthMiddleware.authorize("CUSTOMER", "ADMIN", "RESEPSIONIS"));
         get("/history", clientViewController::allBookings, engine);
 				
-				AdminRoutes.configure(engine);
+		AdminRoutes.configure(engine);
+
+        before("/receptionist/*", AuthMiddleware.authorize("RESEPSIONIS"));
+        get("/receptionist/dashboard", receptionistViewController::dashboard, engine);
     }
 }

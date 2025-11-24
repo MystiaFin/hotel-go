@@ -26,6 +26,8 @@ public class ApiRoutes {
             get("/active", bookingController::getActiveBookings);
             get("/all", bookingController::getBookings);
             post("/cancel/:id", bookingController::cancelBooking);
+            post("/approve", bookingController::approveBooking);
+            post("/reject", bookingController::rejectBooking);
         });
 	}
 }
