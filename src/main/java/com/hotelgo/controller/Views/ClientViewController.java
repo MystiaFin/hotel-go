@@ -39,10 +39,6 @@ public class ClientViewController {
 		links.add(new SideNavLinks("/", "Home"));
 		links.add(new SideNavLinks("/booking/active", "Bookings Active"));
 		links.add(new SideNavLinks("/history", "History"));
-
-        if ("RESEPSIONIS".equalsIgnoreCase(role)) {
-            links.add(new SideNavLinks("/receptionist/dashboard", "Receptionist Dashboard"));
-        }
 		return links;
 	}
 

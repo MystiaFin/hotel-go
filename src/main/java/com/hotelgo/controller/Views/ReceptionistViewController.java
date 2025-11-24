@@ -14,8 +14,10 @@ import spark.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import static com.hotelgo.util.PopupUtil.addPopupFromSession;
 
 public class ReceptionistViewController {
+
     private final ThymeleafTemplateEngine engine;
     private final BookingService bookingService;
     private final UserService userService;
@@ -26,37 +28,45 @@ public class ReceptionistViewController {
         this.userService = new UserService();
     }
 
-    private List<SideNavLinks> getReceptionistLinks() {
+    private List<SideNavLinks> getReceptionistLinks(User user) {
         List<SideNavLinks> links = new ArrayList<>();
         links.add(new SideNavLinks("/", "Home"));
         links.add(new SideNavLinks("/booking/active", "Bookings Active"));
         links.add(new SideNavLinks("/history", "History"));
-        links.add(new SideNavLinks("/receptionist/dashboard", "Receptionist Dashboard"));
+        if (user != null && "RESEPSIONIS".equalsIgnoreCase(user.getRole())) {
+            links.add(new SideNavLinks("/receptionist/dashboard", "Receptionist Dashboard"));
+        }
         return links;
+    }
+
+    private User getUserFromSession(Request req) {
+        String token = req.session().attribute("token");
+        if (token != null && !token.isEmpty()) {
+            String username = JwtUtil.getUsername(token);
+            return userService.getUserByUsername(username);
+        }
+        return null;
+    }
+
+    private void injectCommonData(Request req, HashMap<String, Object> model) {
+        User user = getUserFromSession(req);
+        model.put("user", user);
+        model.put("navLinks", getReceptionistLinks(user));
+        addPopupFromSession(req, model);
     }
 
     public ModelAndView dashboard(Request req, Response res) {
         HashMap<String, Object> model = new HashMap<>();
-        
-        String token = req.session().attribute("token");
-        if (token != null && !token.isEmpty()) {
-            String username = JwtUtil.getUsername(token);
-            User user = userService.getUserByUsername(username);
-            model.put("user", user);
-        }
+        injectCommonData(req, model);
 
-        // default pagination values
+        User user = (User) model.get("user");
+
         int page = 1;
-        final int limit = 10; // fixed as you requested (option A)
-
+        final int limit = 10;
         try {
             String pageParam = req.queryParams("page");
-            if (pageParam != null) {
-                page = Integer.parseInt(pageParam);
-            }
-        } catch (NumberFormatException e) {
-            page = 1;
-        }
+            if (pageParam != null) page = Integer.parseInt(pageParam);
+        } catch (NumberFormatException ignored) {}
 
         String searchQuery = req.queryParams("search");
         List<BookedHistory> bookings;
@@ -71,15 +81,11 @@ public class ReceptionistViewController {
             totalItems = bookingService.getTotalBookingsCount();
         }
 
-        int totalPages = (int) Math.ceil((double) totalItems / limit);
-        if (totalPages < 1) totalPages = 1;
+        int totalPages = Math.max(1, (int) Math.ceil((double) totalItems / limit));
         if (page > totalPages) page = totalPages;
 
-        // create page numbers list for view
         List<Integer> pages = new ArrayList<>();
-        for (int i = 1; i <= totalPages; i++) {
-            pages.add(i);
-        }
+        for (int i = 1; i <= totalPages; i++) pages.add(i);
 
         model.put("bookings", bookings);
         model.put("currentPage", page);
@@ -87,11 +93,9 @@ public class ReceptionistViewController {
         model.put("totalItems", totalItems);
         model.put("totalPages", totalPages);
         model.put("pages", pages);
-
-        model.put("currentPath", req.pathInfo());
-        model.put("navLinks", getReceptionistLinks());
         model.put("title", "Receptionist Dashboard");
-        
+        model.put("currentPath", req.pathInfo());
+
         return new ModelAndView(model, "pages/receptionist/dashboard");
     }
 }
