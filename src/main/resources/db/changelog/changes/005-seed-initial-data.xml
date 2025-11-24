@@ -5,29 +5,33 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
 
   <changeSet id="005-seed-initial-data" author="hotelgo">
-    <!-- Seed Users -->
+    <!-- Seed Admin -->
     <insert tableName="users">
       <column name="nama" value="Administrator"/>
       <column name="username" value="admin"/>
       <column name="email" value="admin@hotelgo.com"/>
-      <column name="password" value="$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy"/>
+      <column name="password" value="$2a$10$IVC75pdpvMeX2wmTBkCmne81TT7PwgIAVzkLi3ZA7uFRgzsa/O1Mu"/>
         <!--hashed: admin123 -->
       <column name="role" value="ADMIN"/>
     </insert>
 
+    <!-- Seed Receptionist -->
+    <insert tableName="users">
+      <column name="nama" value="Receptionist"/>
+      <column name="username" value="receptionist"/>
+      <column name="email" value="receptionist@hotelgo.com"/>
+      <column name="password" value="$2a$10$ZibHRIeA59dzlVuhYrUq7egD.wxgsp8e88/QZk3MMDYTjGDQfdwUW"/>
+        <!--hashed: receptionist123 -->
+      <column name="role" value="ADMIN"/>
+    </insert>
+
+    <!-- Seed Users -->
     <insert tableName="users">
       <column name="nama" value="John Doe"/>
       <column name="username" value="john_doe"/>
       <column name="email" value="john@example.com"/>
-      <column name="password" value="$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy"/>
-      <column name="role" value="CUSTOMER"/>
-    </insert>
-
-    <insert tableName="users">
-      <column name="nama" value="Jane Smith"/>
-      <column name="username" value="jane_smith"/>
-      <column name="email" value="jane@example.com"/>
-      <column name="password" value="$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy"/>
+      <column name="password" value="$2a$10$n1MZHcEcG4W8q985JrrZl.gjp5wEBSqnTTaxo44NvXcaVZRp3trUC"/>
+        <!--hashed: user123 -->
       <column name="role" value="CUSTOMER"/>
     </insert>
 
