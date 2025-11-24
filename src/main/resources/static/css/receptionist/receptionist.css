@@ -1,0 +1,120 @@
+.dashboard-container {
+    padding: 20px;
+}
+
+.table-card {
+    background-color: var(--color-white);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #d8dee9;
+    border-radius: 6px;
+    background-color: #eceff4;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e5e9f0;
+}
+
+th {
+    color: var(--color-accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.text-bold {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.text-muted {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.badge-pending {
+    background: #ebcb8b;
+    color: #7c5e10;
+}
+
+.badge-active {
+    background: #a3be8c;
+    color: #1b5e20;
+}
+
+.badge-cancelled {
+    background: #bf616a;
+    color: #4c181d;
+}
+
+.badge-expired {
+    background: #d8dee9;
+    color: #4c566a;
+}
+
+.action-group {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+    padding: 12px 0;
+}
+
+.pagination a,
+.pagination span {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid #e5e9f0;
+    min-width: 38px;
+    text-align: center;
+}
+
+.pagination .active-page {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    font-weight: 700;
+}
+
+.pagination .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
