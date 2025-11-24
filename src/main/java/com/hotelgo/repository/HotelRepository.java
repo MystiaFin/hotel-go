@@ -12,9 +12,10 @@ public class HotelRepository {
     private final Sql2o sql2o = DatabaseConfig.getSql2o();
 
     public List<Hotel> findAllHotels() {
-        String sql = "SELECT DISTINCT h.id, h.name, h.location, h.created_at AS createdAt, h.updated_at AS updatedAt FROM hotels h JOIN hotel_rooms r ON h.id = r.hotel_id";
+        String sql = "SELECT id, name, location, created_at AS createdAt, updated_at AS updatedAt FROM hotels";
         try (Connection con = sql2o.open()) {
-            return con.createQuery(sql).executeAndFetch(Hotel.class);
+            List<Hotel> list = con.createQuery(sql).executeAndFetch(Hotel.class);
+            return list;
         }
     }
 
