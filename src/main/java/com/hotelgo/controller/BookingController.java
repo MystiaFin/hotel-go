@@ -58,4 +58,18 @@ public class BookingController {
         res.redirect(req.session().attribute("redirectUrl"));
         return null;
     }
+
+    public Object approveBooking(Request req, Response res) {
+        long id = Long.parseLong(req.queryParams("bookingId"));
+        bookingService.updateBookingStatus(id, "ACTIVE");
+        res.redirect("/receptionist/dashboard");
+        return null;
+    }
+
+    public Object rejectBooking(Request req, Response res) {
+        long id = Long.parseLong(req.queryParams("bookingId"));
+        bookingService.updateBookingStatus(id, "CANCEL");
+        res.redirect("/receptionist/dashboard");
+        return null;
+    }
 }

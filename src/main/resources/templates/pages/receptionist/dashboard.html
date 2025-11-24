@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/client}">
+
+<head>
+    <title>Receptionist Dashboard</title>
+    <link rel="stylesheet" href="/css/card.css" />
+    <link rel="stylesheet" href="/css/receptionist/receptionist.css" />
+</head>
+
+<body>
+<div layout:fragment="content" class="dashboard-container">
+
+    <div th:replace="~{components/heading-main :: headingMain('Receptionist Dashboard')}"></div>
+
+    <div class="table-card">
+        <div class="search-box">
+            <form action="/receptionist/dashboard" method="get" style="width: 100%; display: flex; gap: 10px;">
+                <input type="text" name="search" class="search-input" placeholder="Search guest name..."
+                       th:value="${searchQuery}">
+                <button type="submit" class="btn btn-secondary">Search</button>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Guest Name</th>
+                <th>Room Info</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${bookings}">
+                <td class="text-muted" th:text="'#' + ${booking.id}"></td>
+                <td>
+                    <div class="text-bold" th:text="${booking.userName}"></div>
+                    <div class="text-muted">Customer</div>
+                </td>
+                <td>
+                    <div class="text-bold" th:text="${booking.hotelName}"></div>
+                    <div class="text-muted" th:text="${booking.roomNumber}"></div>
+                </td>
+                <td class="text-bold" th:text="'Rp ' + ${booking.roomPrice}"></td>
+                <td>
+                    <span th:if="${booking.bookedStatus == 'PENDING'}" class="badge badge-pending">PENDING</span>
+                    <span th:if="${booking.bookedStatus == 'ACTIVE'}" class="badge badge-active">ACTIVE</span>
+                    <span th:if="${booking.bookedStatus == 'CANCEL'}" class="badge badge-cancelled">CANCEL</span>
+                    <span th:if="${booking.bookedStatus == 'EXPIRED'}" class="badge badge-expired">EXPIRED</span>
+                    <span th:if="${booking.bookedStatus == 'COMPLETE'}" class="badge badge-complete">COMPLETE</span>
+                </td>
+                <td>
+                    <div class="text-bold" th:text="${booking.checkinDate}"></div>
+                </td>
+                <td>
+                    <div class="text-bold" th:text="${booking.checkoutDate}">-</div>
+                </td>
+                <td>
+                    <div th:if="${booking.bookedStatus == 'PENDING'}" class="action-group">
+                        <form action="/api/booking/approve" method="post" style="margin:0;">
+                            <input type="hidden" name="bookingId" th:value="${booking.id}">
+                            <button type="submit" class="btn btn-confirm"
+                                    style="padding: 5px 10px; font-size: 0.8rem;">Approve
+                            </button>
+                        </form>
+                        <form action="/api/booking/reject" method="post" style="margin:0;">
+                            <input type="hidden" name="bookingId" th:value="${booking.id}">
+                            <button type="submit" class="btn btn-reject"
+                                    style="padding: 5px 10px; font-size: 0.8rem;">Reject
+                            </button>
+                        </form>
+                    </div>
+                    <span th:unless="${booking.bookedStatus == 'PENDING'}" class="text-muted">Completed</span>
+                </td>
+            </tr>
+
+            <tr th:if="${bookings.empty}">
+                <td colspan="6" style="text-align: center; padding: 30px;" class="text-muted">
+                    No bookings found.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination" th:if="${totalPages > 1}">
+            <a th:if="${currentPage > 1}" th:href="@{'dashboard'(page=${currentPage - 1}, search=${searchQuery})}">Previous</a>
+            <span th:unless="${currentPage > 1}" class="disabled">Previous</span>
+            <span th:each="p : ${pages}">
+                <a th:if="${p != currentPage}" th:href="@{'dashboard'(page=${p}, search=${searchQuery})}" th:text="${p}">1</a>
+                <span th:if="${p == currentPage}" th:text="${p}" class="active-page">1</span>
+            </span>
+            <a th:if="${currentPage < totalPages}" th:href="@{'dashboard'(page=${currentPage + 1}, search=${searchQuery})}">Next</a>
+            <span th:unless="${currentPage < totalPages}" class="disabled">Next</span>
+        </div>
+
+    </div>
+</div>
+</body>
+
+</html>
