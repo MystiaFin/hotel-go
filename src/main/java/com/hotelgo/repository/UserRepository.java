@@ -9,7 +9,7 @@ public class UserRepository {
     private final Sql2o sql2o = DatabaseConfig.getSql2o();
 
     public User findByEmail(String email) {
-        String sql = "SELECT id, nama, email, username, password, role, created_at AS createdAt, updated_at AS updatedAt FROM users WHERE email=:email";
+        String sql = "SELECT id, name, email, username, password, role, created_at AS createdAt, updated_at AS updatedAt FROM users WHERE email=:email";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
                     .addParameter("email", email)
@@ -18,7 +18,7 @@ public class UserRepository {
     }
 
     public User findByUsername(String username) {
-        String sql = "SELECT id, nama, email, username, password, role, created_at AS createdAt, updated_at AS updatedAt FROM users WHERE username=:username";
+        String sql = "SELECT id, name, email, username, password, role, created_at AS createdAt, updated_at AS updatedAt FROM users WHERE username=:username";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
                     .addParameter("username", username)
@@ -27,10 +27,10 @@ public class UserRepository {
     }
 
     public void save(User user) {
-        String sql = "INSERT INTO users(nama, email, username, password, role) VALUES(:nama, :email, :username, :password, :role)";
+        String sql = "INSERT INTO users(name, email, username, password, role) VALUES(:name, :email, :username, :password, :role)";
         try (Connection con = sql2o.beginTransaction()) {
             con.createQuery(sql)
-                    .addParameter("nama", user.getNama())
+                    .addParameter("name", user.getName())
                     .addParameter("email", user.getEmail())
                     .addParameter("username", user.getUsername())
                     .addParameter("password", user.getPassword())
@@ -52,10 +52,10 @@ public class UserRepository {
     }
 
     public boolean updateUser(User user) {
-        String sql = "UPDATE users SET nama=:nama, email=:email WHERE username=:username";
+        String sql = "UPDATE users SET name=:name, email=:email WHERE username=:username";
         try (Connection con = sql2o.beginTransaction()) {
             con.createQuery(sql)
-                    .addParameter("nama", user.getNama())
+                    .addParameter("name", user.getName())
                     .addParameter("email", user.getEmail())
                     .addParameter("username", user.getUsername())
                     .executeUpdate();

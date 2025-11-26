@@ -5,143 +5,164 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
 
   <changeSet id="005-seed-initial-data" author="hotelgo">
-    <!-- Seed Admin -->
     <insert tableName="users">
-      <column name="nama" value="Administrator"/>
+      <column name="name" value="Administrator"/>
       <column name="username" value="admin"/>
       <column name="email" value="admin@hotelgo.com"/>
       <column name="password" value="$2a$10$IVC75pdpvMeX2wmTBkCmne81TT7PwgIAVzkLi3ZA7uFRgzsa/O1Mu"/>
-        <!--hashed: admin123 -->
       <column name="role" value="ADMIN"/>
     </insert>
 
-    <!-- Seed Receptionist -->
     <insert tableName="users">
-      <column name="nama" value="Receptionist"/>
+      <column name="name" value="Receptionist"/>
       <column name="username" value="receptionist"/>
       <column name="email" value="receptionist@hotelgo.com"/>
       <column name="password" value="$2a$10$ZibHRIeA59dzlVuhYrUq7egD.wxgsp8e88/QZk3MMDYTjGDQfdwUW"/>
-        <!--hashed: receptionist123 -->
-      <column name="role" value="ADMIN"/>
+      <column name="role" value="RECEPTIONIST"/>
     </insert>
 
-    <!-- Seed Users -->
     <insert tableName="users">
-      <column name="nama" value="John Doe"/>
-      <column name="username" value="john_doe"/>
-      <column name="email" value="john@example.com"/>
+      <column name="name" value="Pratama"/>
+      <column name="username" value="pratama"/>
+      <column name="email" value="pratama@gmail.com"/>
       <column name="password" value="$2a$10$n1MZHcEcG4W8q985JrrZl.gjp5wEBSqnTTaxo44NvXcaVZRp3trUC"/>
-        <!--hashed: user123 -->
       <column name="role" value="CUSTOMER"/>
     </insert>
 
-    <!-- Seed Hotels -->
-    <insert tableName="hotels">
-      <column name="name" value="Grand Plaza Hotel"/>
-      <column name="location" value="Jakarta, Indonesia"/>
+    <insert tableName="users">
+      <column name="name" value="Siti Rahma"/>
+      <column name="username" value="sitirahma"/>
+      <column name="email" value="sitirahma@gmail.com"/>
+      <column name="password" value="$2a$10$n1MZHcEcG4W8q985JrrZl.gjp5wEBSqnTTaxo44NvXcaVZRp3trUC"/>
+      <column name="role" value="CUSTOMER"/>
+    </insert>
+
+    <insert tableName="users">
+      <column name="name" value="Budi Santoso"/>
+      <column name="username" value="budisantoso"/>
+      <column name="email" value="budisantoso@gmail.com"/>
+      <column name="password" value="$2a$10$n1MZHcEcG4W8q985JrrZl.gjp5wEBSqnTTaxo44NvXcaVZRp3trUC"/>
+      <column name="role" value="CUSTOMER"/>
     </insert>
 
     <insert tableName="hotels">
-      <column name="name" value="Seaside Resort"/>
-      <column name="location" value="Bali, Indonesia"/>
+      <column name="name" value="Grand Jakarta Hotel"/>
+      <column name="location" value="Jakarta Pusat, Indonesia"/>
     </insert>
 
     <insert tableName="hotels">
-      <column name="name" value="Mountain View Lodge"/>
-      <column name="location" value="Bandung, Indonesia"/>
+      <column name="name" value="Sudirman City Hotel"/>
+      <column name="location" value="Jakarta Selatan, Indonesia"/>
     </insert>
 
-    <!-- Seed Hotel Rooms for Grand Plaza Hotel (ID: 1) -->
-    <insert tableName="hotel_rooms">
-      <column name="hotel_id" valueNumeric="1"/>
-      <column name="room_number" value="GP-101"/>
-      <column name="price" valueNumeric="150.00"/>
+    <insert tableName="hotels">
+      <column name="name" value="Grogol Hotel"/>
+      <column name="location" value="Jakarta Barat, Indonesia"/>
     </insert>
 
-    <insert tableName="hotel_rooms">
-      <column name="hotel_id" valueNumeric="1"/>
-      <column name="room_number" value="GP-102"/>
-      <column name="price" valueNumeric="150.00"/>
+    <insert tableName="hotels">
+      <column name="name" value="Ancol Hotel"/>
+      <column name="location" value="Jakarta Utara, Indonesia"/>
     </insert>
 
-    <insert tableName="hotel_rooms">
-      <column name="hotel_id" valueNumeric="1"/>
-      <column name="room_number" value="GP-201"/>
-      <column name="price" valueNumeric="200.00"/>
+    <insert tableName="hotels">
+      <column name="name" value="Cempaka Hotel"/>
+      <column name="location" value="Jakarta Timur, Indonesia"/>
     </insert>
 
     <insert tableName="hotel_rooms">
       <column name="hotel_id" valueNumeric="1"/>
-      <column name="room_number" value="GP-202"/>
-      <column name="price" valueNumeric="200.00"/>
+      <column name="room_number" value="101"/>
+      <column name="price" valueNumeric="250000"/>
     </insert>
 
     <insert tableName="hotel_rooms">
       <column name="hotel_id" valueNumeric="1"/>
-      <column name="room_number" value="GP-301"/>
-      <column name="price" valueNumeric="300.00"/>
+      <column name="room_number" value="102"/>
+      <column name="price" valueNumeric="250000"/>
     </insert>
 
-    <!-- Seed Hotel Rooms for Seaside Resort (ID: 2) -->
     <insert tableName="hotel_rooms">
-      <column name="hotel_id" valueNumeric="2"/>
-      <column name="room_number" value="SR-A1"/>
-      <column name="price" valueNumeric="250.00"/>
+      <column name="hotel_id" valueNumeric="1"/>
+      <column name="room_number" value="103"/>
+      <column name="price" valueNumeric="250000"/>
     </insert>
 
     <insert tableName="hotel_rooms">
       <column name="hotel_id" valueNumeric="2"/>
-      <column name="room_number" value="SR-A2"/>
-      <column name="price" valueNumeric="250.00"/>
+      <column name="room_number" value="201"/>
+      <column name="price" valueNumeric="200000"/>
     </insert>
 
     <insert tableName="hotel_rooms">
       <column name="hotel_id" valueNumeric="2"/>
-      <column name="room_number" value="SR-B1"/>
-      <column name="price" valueNumeric="350.00"/>
-    </insert>
-
-    <!-- Seed Hotel Rooms for Mountain View Lodge (ID: 3) -->
-    <insert tableName="hotel_rooms">
-      <column name="hotel_id" valueNumeric="3"/>
-      <column name="room_number" value="MV-CABIN-1"/>
-      <column name="price" valueNumeric="180.00"/>
+      <column name="room_number" value="202"/>
+      <column name="price" valueNumeric="200000"/>
     </insert>
 
     <insert tableName="hotel_rooms">
-      <column name="hotel_id" valueNumeric="3"/>
-      <column name="room_number" value="MV-CABIN-2"/>
-      <column name="price" valueNumeric="180.00"/>
+      <column name="hotel_id" valueNumeric="2"/>
+      <column name="room_number" value="203"/>
+      <column name="price" valueNumeric="200000"/>
     </insert>
 
     <insert tableName="hotel_rooms">
       <column name="hotel_id" valueNumeric="3"/>
-      <column name="room_number" value="MV-SUITE-1"/>
-      <column name="price" valueNumeric="280.00"/>
+      <column name="room_number" value="301"/>
+      <column name="price" valueNumeric="190000"/>
     </insert>
 
-    <!-- Seed Sample Bookings -->
+    <insert tableName="hotel_rooms">
+      <column name="hotel_id" valueNumeric="3"/>
+      <column name="room_number" value="302"/>
+      <column name="price" valueNumeric="190000"/>
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="hotel_id" valueNumeric="4"/>
+      <column name="room_number" value="401"/>
+      <column name="price" valueNumeric="220000"/>
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="hotel_id" valueNumeric="4"/>
+      <column name="room_number" value="402"/>
+      <column name="price" valueNumeric="220000"/>
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="hotel_id" valueNumeric="5"/>
+      <column name="room_number" value="501"/>
+      <column name="price" valueNumeric="210000"/>
+    </insert>
+
+    <insert tableName="hotel_rooms">
+      <column name="hotel_id" valueNumeric="5"/>
+      <column name="room_number" value="502"/>
+      <column name="price" valueNumeric="210000"/>
+    </insert>
+
     <insert tableName="booked_histories">
       <column name="room_id" valueNumeric="1"/>
-      <column name="user_id" valueNumeric="2"/> <!-- john_doe -->
-      <column name="checkin_date" valueDate="2025-12-20"/>
-      <column name="checkout_date" valueDate="2025-12-25"/>
+      <column name="user_id" valueNumeric="3"/>
+      <column name="checkin_date" valueDate="2025-11-20"/>
+      <column name="checkout_date" valueDate="2025-11-21"/>
       <column name="booked_status" value="ACTIVE"/>
     </insert>
 
     <insert tableName="booked_histories">
-      <column name="room_id" valueNumeric="6"/>
-      <column name="user_id" valueNumeric="3"/> <!-- jane -->
-      <column name="checkin_date" valueDate="2025-11-15"/>
-      <column name="checkout_date" valueDate="2025-11-20"/>
+      <column name="room_id" valueNumeric="4"/>
+      <column name="user_id" valueNumeric="4"/>
+      <column name="checkin_date" valueDate="2025-11-10"/>
+      <column name="checkout_date" valueDate="2025-11-11"/>
       <column name="booked_status" value="ACTIVE"/>
     </insert>
 
     <insert tableName="booked_histories">
-      <column name="room_id" valueNumeric="9"/>
-      <column name="user_id" valueNumeric="2"/> <!-- john -->
+      <column name="room_id" valueNumeric="7"/>
+      <column name="user_id" valueNumeric="3"/>
       <column name="booked_status" value="PENDING"/>
-      <column name="expiration_date" value="2025-11-17 14:44:18" />
+      <column name="expiration_date" value="2025-11-26 14:44:18"/>
     </insert>
   </changeSet>
 

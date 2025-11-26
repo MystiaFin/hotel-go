@@ -8,7 +8,7 @@
         <div th:replace="~{components/heading-main :: headingMain('Profile')}"></div>
         <div style="margin-left: 10px;">
             <div id="viewMode" class="profile-view">
-                <p><strong>Name:</strong> <span th:text="${user.nama}"></span></p>
+                <p><strong>Name:</strong> <span th:text="${user.name}"></span></p>
                 <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
                 <button class="profile-btn btn-secondary" onclick="switchToEdit()">Edit</button>
                 <a href="/logout">
@@ -19,7 +19,7 @@
             <div id="editMode" class="profile-edit" style="display:none;">
                 <form action="/api/user/profile/update" method="post">
                     <label>Name</label><br>
-                    <input type="text" class="profile-input" name="nama" th:value="${user.nama}" required><br>
+                    <input type="text" class="profile-input" name="name" th:value="${user.name}" required><br>
                     <label>Email</label><br>
                     <input type="email" class="profile-input" name="email" th:value="${user.email}" required><br>
                     <button type="submit" class="profile-btn btn-confirm">Save</button>

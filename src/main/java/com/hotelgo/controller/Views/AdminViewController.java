@@ -3,18 +3,17 @@ package com.hotelgo.controller.Views;
 import static com.hotelgo.util.PopupUtil.addPopupFromSession;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import com.hotelgo.config.ThymeleafTemplateEngine;
 import com.hotelgo.model.Hotel;
 import com.hotelgo.model.HotelRoom;
-import com.hotelgo.model.SideNavLinks;
 import com.hotelgo.model.User;
 import com.hotelgo.service.HotelService;
 import com.hotelgo.service.RoomService;
 import com.hotelgo.service.UserService;
 import com.hotelgo.util.JwtUtil;
+import com.hotelgo.util.NavLinkUtil;
+
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -31,20 +30,12 @@ public class AdminViewController {
         this.userService = new UserService();
     }
 
-	private List<SideNavLinks> getAdminNavLinks() {
-		List<SideNavLinks> links = new ArrayList<>();
-		links.add(new SideNavLinks("/admin/dashboard", "Dashboard Admin"));
-		links.add(new SideNavLinks("/admin/hotels", "Hotel Management"));
-		return links;
-	}
-
 	public ModelAndView adminDashboard(Request req, Response res) {
 		List<Hotel> hotels = hotelService.findAllHotels();
 		HashMap<String, Object> model = new HashMap<>();
 		injectAdminData(req, model);
 		model.put("title", "Admin Dashboard");
 		model.put("currentpath", req.pathInfo());
-		model.put("navlinks", getAdminNavLinks());
 		model.put("hotels", hotels);
 
 		return new ModelAndView(model, "pages/admin/dashboard");
@@ -57,6 +48,7 @@ public class AdminViewController {
             User admin = userService.getUserByUsername(username);
             if (admin != null) {
                 model.put("user", admin);
+        		model.put("navlinks", NavLinkUtil.getNavLinks(admin.getRole()));
             }
         }
         addPopupFromSession(req, model);
@@ -68,7 +60,6 @@ public class AdminViewController {
 		injectAdminData(req, model);
         model.put("title", "Hotel Management");
         model.put("hotels", hotels);
-        model.put("navlinks", getAdminNavLinks());
         model.put("currentpath", req.pathInfo());
 
         return new ModelAndView(model, "pages/admin/hotel");
@@ -78,7 +69,6 @@ public class AdminViewController {
         HashMap<String, Object> model = new HashMap<>();
 		injectAdminData(req, model);
         model.put("title", "Create Hotel");
-        model.put("navlinks", getAdminNavLinks());
 		model.put("currentpath", req.pathInfo());
 
         return new ModelAndView(model, "pages/admin/create-hotel");
@@ -100,7 +90,6 @@ public class AdminViewController {
 		injectAdminData(req, model);
         model.put("title", "Edit Hotel");
         model.put("hotel", hotel);
-        model.put("navlinks", getAdminNavLinks());
 		model.put("currentpath", req.pathInfo());
 
         return new ModelAndView(model, "pages/admin/edit-hotel");
@@ -133,7 +122,6 @@ public class AdminViewController {
         model.put("title", "Room Management");
         model.put("hotel", hotel);
         model.put("rooms", rooms);
-        model.put("navlinks", getAdminNavLinks());
 		model.put("currentpath", req.pathInfo());
 
         return new ModelAndView(model, "pages/admin/room");
@@ -145,7 +133,6 @@ public class AdminViewController {
 		injectAdminData(req, model);
         model.put("title", "Create Room");
         model.put("hotelId", hotelId);
-        model.put("navlinks", getAdminNavLinks());
         model.put("currentpath", req.pathInfo());
 
         return new ModelAndView(model, "pages/admin/create-room");
@@ -168,7 +155,6 @@ public class AdminViewController {
 		injectAdminData(req, model);
         model.put("title", "Edit Room");
         model.put("room", room);
-        model.put("navlinks", getAdminNavLinks());
 		model.put("currentpath", req.pathInfo());
 
         return new ModelAndView(model, "pages/admin/edit-room");

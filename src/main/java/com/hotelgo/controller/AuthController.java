@@ -11,7 +11,7 @@ public class AuthController {
     
     public Object register(Request req, Response res) {
         User user = new User();
-        user.setNama(req.queryParams("nama"));
+        user.setName(req.queryParams("name"));
         user.setEmail(req.queryParams("email"));
         user.setUsername(req.queryParams("username"));
         user.setPassword(req.queryParams("password"));
@@ -45,7 +45,18 @@ public class AuthController {
         } else {
             req.session().attribute("token", token);
             req.session().attribute("email", email);
-            res.redirect("/");
+            String role = JwtUtil.getRole(token);
+            switch (role.toLowerCase()) {
+                case "admin":
+                    res.redirect("/admin/dashboard");
+                    break;
+                case "receptionist":
+                    res.redirect("/receptionist/dashboard");
+                    break;
+                default:
+                    res.redirect("/");
+                    break;
+            }
             return null;
         }
         res.redirect("/login");
@@ -75,7 +86,7 @@ public class AuthController {
         String username = JwtUtil.getUsername(req.session().attribute("token"));
         User u = new User();
         u.setUsername(username);
-        u.setNama(req.queryParams("nama"));
+        u.setName(req.queryParams("name"));
         u.setEmail(req.queryParams("email"));
         String msg = userService.updateUser(u);
         req.session(true);

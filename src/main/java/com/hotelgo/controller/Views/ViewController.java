@@ -4,14 +4,12 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-import com.hotelgo.model.SideNavLinks;
 import com.hotelgo.model.User;
 import com.hotelgo.service.UserService;
 import com.hotelgo.util.JwtUtil;
+import com.hotelgo.util.NavLinkUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import static com.hotelgo.util.PopupUtil.addPopupFromSession;
 
 public class ViewController {
@@ -19,14 +17,6 @@ public class ViewController {
 
 	public ViewController() {
 		this.userService = new UserService();
-	}
-
-	private List<SideNavLinks> getClientNavLinks() {
-		List<SideNavLinks> links = new ArrayList<>();
-		links.add(new SideNavLinks("/", "Home"));
-		links.add(new SideNavLinks("/booking/active", "Bookings Active"));
-		links.add(new SideNavLinks("/history", "Bookings History"));
-		return links;
 	}
 
     public ModelAndView login(Request req, Response res) {
@@ -54,15 +44,8 @@ public class ViewController {
         model.put("user", user);
         model.put("title", "Profile");
         model.put("currentPath", req.pathInfo());
-        model.put("navLinks", getClientNavLinks());
+        model.put("navLinks", NavLinkUtil.getNavLinks(user.getRole()));
         addPopupFromSession(req, model);
         return new ModelAndView(model, "pages/client/profile");
-    }
-
-    public ModelAndView home(Request req, Response res) {
-        HashMap<String, Object> model = new HashMap<>();
-        addPopupFromSession(req, model);
-        model.put("title", "Home");
-        return new ModelAndView(model, "pages/client/home");
     }
 }
