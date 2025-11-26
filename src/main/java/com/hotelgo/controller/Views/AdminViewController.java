@@ -130,6 +130,7 @@ public class AdminViewController {
         List<HotelRoom> rooms = hotelService.findRoomsByHotelId(hotelId);
         HashMap<String, Object> model = new HashMap<>();
 		injectAdminData(req, model);
+        model.put("title", "Room Management");
         model.put("hotel", hotel);
         model.put("rooms", rooms);
         model.put("navlinks", getAdminNavLinks());
@@ -142,6 +143,7 @@ public class AdminViewController {
         Long hotelId = Long.valueOf(req.params("hotelId"));
         HashMap<String, Object> model = new HashMap<>();
 		injectAdminData(req, model);
+        model.put("title", "Create Room");
         model.put("hotelId", hotelId);
         model.put("navlinks", getAdminNavLinks());
         model.put("currentpath", req.pathInfo());
@@ -164,6 +166,7 @@ public class AdminViewController {
         HotelRoom room = roomService.getRoomById(id);
         HashMap<String, Object> model = new HashMap<>();
 		injectAdminData(req, model);
+        model.put("title", "Edit Room");
         model.put("room", room);
         model.put("navlinks", getAdminNavLinks());
 		model.put("currentpath", req.pathInfo());
