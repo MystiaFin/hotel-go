@@ -73,9 +73,17 @@
                             <button type="submit" class="btn btn-reject"
                                     style="padding: 5px 10px; font-size: 0.8rem;">Reject
                             </button>
+                        </form>            
+                    </div>
+                    <div th:if="${booking.bookedStatus == 'ACTIVE'}" class="action-group">
+                        <form action="/api/booking/complete" method="post" style="margin:0;">
+                            <input type="hidden" name="bookingId" th:value="${booking.id}">
+                            <button type="submit" class="btn btn-complete"
+                                    style="padding: 5px 10px; font-size: 0.8rem;">Complete
+                            </button>
                         </form>
                     </div>
-                    <span th:unless="${booking.bookedStatus == 'PENDING'}" class="text-muted">Completed</span>
+                    <span th:if="${booking.bookedStatus == 'COMPLETE'}" class="text-muted">Completed</span>
                 </td>
             </tr>
 
