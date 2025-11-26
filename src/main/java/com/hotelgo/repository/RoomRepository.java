@@ -43,12 +43,14 @@ public class RoomRepository {
         }
     }
 
-    public boolean updateRoomPrice(Long id, BigDecimal price) {
-        String sql = "UPDATE hotel_rooms SET price = :price WHERE id = :id";
+    public boolean updateRoom(Long id, Long hotelId, String roomNumber, BigDecimal price) {
+        String sql = "UPDATE hotel_rooms SET hotel_id = :hotelId, room_number = :roomNumber, price = :price WHERE id = :id";
         try (Connection con = sql2o.open()) {
             int updated = con.createQuery(sql)
-                    .addParameter("price", price)
                     .addParameter("id", id)
+                    .addParameter("hotelId", hotelId)
+                    .addParameter("roomNumber", roomNumber)
+                    .addParameter("price", price)
                     .executeUpdate()
                     .getResult();
             return updated > 0;

@@ -177,8 +177,9 @@ public class AdminViewController {
 	public Object updateRoom(Request req, Response res) {
         Long id = Long.valueOf(req.params("id"));
         Long hotelId = Long.valueOf(req.queryParams("hotelId"));
+        String roomNumber = req.queryParams("roomNumber");
         BigDecimal price = new BigDecimal(req.queryParams("price"));
-        roomService.updateRoomPrice(id, price);
+        roomService.updateRoom(id, hotelId, roomNumber, price);
         res.redirect("/admin/hotels/" + hotelId + "/rooms");
 
         return null;
