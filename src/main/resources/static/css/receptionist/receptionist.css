@@ -82,6 +82,11 @@ th {
     color: #4c566a;
 }
 
+.badge-complete {
+    background: #15bcbf;
+    color: #082d77;
+}
+
 .action-group {
     display: flex;
     gap: 5px;

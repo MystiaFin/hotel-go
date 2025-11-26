@@ -72,4 +72,11 @@ public class BookingController {
         res.redirect("/receptionist/dashboard");
         return null;
     }
+
+    public Object completeBooking(Request req, Response res) {
+        long id = Long.parseLong(req.queryParams("bookingId"));
+        bookingService.updateBookingStatus(id, "COMPLETE");
+        res.redirect("/receptionist/dashboard");
+        return null;
+    }
 }
