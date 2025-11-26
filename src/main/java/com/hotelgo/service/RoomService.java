@@ -21,8 +21,8 @@ public class RoomService {
         return roomRepository.createRoom(hotelId, roomNumber, price);
     }
 
-    public boolean updateRoomPrice(Long id, BigDecimal price) {
-        return roomRepository.updateRoomPrice(id, price);
+    public boolean updateRoom(Long id, Long hotelId, String roomNumber, BigDecimal price) {
+        return roomRepository.updateRoom(id, hotelId, roomNumber, price);
     }
 
     public boolean deleteRoom(Long id) {

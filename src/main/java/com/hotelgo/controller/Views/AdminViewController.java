@@ -130,6 +130,7 @@ public class AdminViewController {
         List<HotelRoom> rooms = hotelService.findRoomsByHotelId(hotelId);
         HashMap<String, Object> model = new HashMap<>();
 		injectAdminData(req, model);
+        model.put("title", "Room Management");
         model.put("hotel", hotel);
         model.put("rooms", rooms);
         model.put("navlinks", getAdminNavLinks());
@@ -142,6 +143,7 @@ public class AdminViewController {
         Long hotelId = Long.valueOf(req.params("hotelId"));
         HashMap<String, Object> model = new HashMap<>();
 		injectAdminData(req, model);
+        model.put("title", "Create Room");
         model.put("hotelId", hotelId);
         model.put("navlinks", getAdminNavLinks());
         model.put("currentpath", req.pathInfo());
@@ -164,6 +166,7 @@ public class AdminViewController {
         HotelRoom room = roomService.getRoomById(id);
         HashMap<String, Object> model = new HashMap<>();
 		injectAdminData(req, model);
+        model.put("title", "Edit Room");
         model.put("room", room);
         model.put("navlinks", getAdminNavLinks());
 		model.put("currentpath", req.pathInfo());
@@ -174,8 +177,9 @@ public class AdminViewController {
 	public Object updateRoom(Request req, Response res) {
         Long id = Long.valueOf(req.params("id"));
         Long hotelId = Long.valueOf(req.queryParams("hotelId"));
+        String roomNumber = req.queryParams("roomNumber");
         BigDecimal price = new BigDecimal(req.queryParams("price"));
-        roomService.updateRoomPrice(id, price);
+        roomService.updateRoom(id, hotelId, roomNumber, price);
         res.redirect("/admin/hotels/" + hotelId + "/rooms");
 
         return null;
