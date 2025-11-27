@@ -1,13 +1,9 @@
-.dashboard-container {
-    padding: 20px;
-}
-
 .table-card {
     background-color: var(--color-white);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
-    margin-top: 20px;
+    margin: 10px 0 0 10px;
     overflow-x: auto;
 }
 
@@ -63,28 +59,23 @@ th {
 }
 
 .badge-pending {
-    background: #ebcb8b;
-    color: #7c5e10;
+    background: #f0ad4e;
+    color: var(--color-white);
 }
 
 .badge-active {
-    background: #a3be8c;
-    color: #1b5e20;
+	background: #1b8c32;
+    color: var(--color-white);
 }
 
 .badge-cancelled {
-    background: #bf616a;
-    color: #4c181d;
+    background: #d9534f;
+    color: var(--color-white);
 }
 
-.badge-expired {
-    background: #d8dee9;
-    color: #4c566a;
-}
-
-.badge-complete {
-    background: #15bcbf;
-    color: #082d77;
+.badge-complete, .badge-expired {
+    background: #c1c1c1;
+    color: var(--color-white);
 }
 
 .action-group {

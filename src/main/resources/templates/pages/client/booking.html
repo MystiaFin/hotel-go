@@ -10,7 +10,7 @@
 <div layout:fragment="content">
     <div th:replace="~{components/heading-main :: headingMain('Booking Confirm')}"></div>
     <div class="booking-confirm-card">
-        <p><strong>User:</strong> <span th:text="${user.nama}"></span></p>
+        <p><strong>User:</strong> <span th:text="${user.name}"></span></p>
         <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
         <p><strong>Hotel:</strong> <span th:text="${hotel.name}"></span></p>
         <p><strong>Hotel Location:</strong> <span th:text="${hotel.location}"></span></p>

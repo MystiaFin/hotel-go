@@ -45,7 +45,7 @@ public class BookingRepository {
         String sql = "SELECT b.id AS id, b.room_id AS roomId, b.user_id AS userId, b.booked_status AS bookedStatus, " +
                 "b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, b.created_at AS createdAt, " +
                 "b.updated_at AS updatedAt, r.room_number AS roomNumber, r.price AS roomPrice, " +
-                "h.name AS hotelName, h.location AS hotelLocation " +
+                "h.name AS hotelName, h.location AS hotelLocation, DATE_FORMAT(b.expiration_date, '%Y-%m-%d %H:%i') AS expirationDate " +
                 "FROM booked_histories b " +
                 "JOIN hotel_rooms r ON b.room_id = r.id " +
                 "JOIN hotels h ON r.hotel_id = h.id " +
@@ -78,7 +78,7 @@ public class BookingRepository {
     }
 
     public List<BookedHistory> findAllBookings() {
-        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.nama AS userName, b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName FROM booked_histories b JOIN users u ON b.user_id = u.id JOIN hotel_rooms r ON b.room_id = r.id JOIN hotels h ON r.hotel_id = h.id ORDER BY b.id DESC";
+        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.name AS userName, b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName FROM booked_histories b JOIN users u ON b.user_id = u.id JOIN hotel_rooms r ON b.room_id = r.id JOIN hotels h ON r.hotel_id = h.id ORDER BY b.id DESC";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(BookedHistory.class);
         }
@@ -101,12 +101,12 @@ public class BookingRepository {
     }
 
     public List<BookedHistory> searchBookings(String keyword) {
-        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.nama AS userName, b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName " +
+        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.name AS userName, b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName " +
                      "FROM booked_histories b " +
                      "JOIN users u ON b.user_id = u.id " +
                      "JOIN hotel_rooms r ON b.room_id = r.id " +
                      "JOIN hotels h ON r.hotel_id = h.id " +
-                     "WHERE LOWER(u.nama) LIKE :keyword OR r.room_number LIKE :keyword " +
+                     "WHERE LOWER(u.name) LIKE :keyword OR r.room_number LIKE :keyword " +
                      "ORDER BY b.id DESC";
         
         try (Connection con = sql2o.open()) {
@@ -117,7 +117,7 @@ public class BookingRepository {
     }
 
     public List<BookedHistory> findBookingsPaginated(int limit, int offset) {
-        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.nama AS userName, " +
+        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.name AS userName, " +
                      "b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, " +
                      "r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName " +
                      "FROM booked_histories b " +
@@ -142,14 +142,14 @@ public class BookingRepository {
     }
 
     public List<BookedHistory> searchBookingsPaginated(String keyword, int limit, int offset) {
-        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.nama AS userName, " +
+        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.name AS userName, " +
                      "b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, " +
                      "r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName " +
                      "FROM booked_histories b " +
                      "JOIN users u ON b.user_id = u.id " +
                      "JOIN hotel_rooms r ON b.room_id = r.id " +
                      "JOIN hotels h ON r.hotel_id = h.id " +
-                     "WHERE LOWER(u.nama) LIKE :keyword OR r.room_number LIKE :keyword " +
+                     "WHERE LOWER(u.name) LIKE :keyword OR r.room_number LIKE :keyword " +
                      "ORDER BY b.id DESC " +
                      "LIMIT :limit OFFSET :offset";
         try (Connection con = sql2o.open()) {
@@ -162,7 +162,7 @@ public class BookingRepository {
     }
 
     public int countSearchBookings(String keyword) {
-        String sql = "SELECT COUNT(*) FROM booked_histories b JOIN users u ON b.user_id = u.id JOIN hotel_rooms r ON b.room_id = r.id WHERE LOWER(u.nama) LIKE :keyword OR r.room_number LIKE :keyword";
+        String sql = "SELECT COUNT(*) FROM booked_histories b JOIN users u ON b.user_id = u.id JOIN hotel_rooms r ON b.room_id = r.id WHERE LOWER(u.name) LIKE :keyword OR r.room_number LIKE :keyword";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
                     .addParameter("keyword", "%" + keyword.toLowerCase() + "%")

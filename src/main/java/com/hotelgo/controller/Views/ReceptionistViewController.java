@@ -1,20 +1,23 @@
 package com.hotelgo.controller.Views;
 
+import static com.hotelgo.util.PopupUtil.addPopupFromSession;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.hotelgo.config.ThymeleafConfig;
 import com.hotelgo.config.ThymeleafTemplateEngine;
+import com.hotelgo.model.BookedHistory;
+import com.hotelgo.model.User;
 import com.hotelgo.service.BookingService;
 import com.hotelgo.service.UserService;
 import com.hotelgo.util.JwtUtil;
-import com.hotelgo.model.User;
-import com.hotelgo.model.SideNavLinks;
-import com.hotelgo.model.BookedHistory;
+import com.hotelgo.util.NavLinkUtil;
+
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import static com.hotelgo.util.PopupUtil.addPopupFromSession;
 
 public class ReceptionistViewController {
 
@@ -26,17 +29,6 @@ public class ReceptionistViewController {
         this.engine = ThymeleafConfig.createTemplateEngine();
         this.bookingService = new BookingService();
         this.userService = new UserService();
-    }
-
-    private List<SideNavLinks> getReceptionistLinks(User user) {
-        List<SideNavLinks> links = new ArrayList<>();
-        links.add(new SideNavLinks("/", "Home"));
-        links.add(new SideNavLinks("/booking/active", "Bookings Active"));
-        links.add(new SideNavLinks("/history", "History"));
-        if (user != null && "RESEPSIONIS".equalsIgnoreCase(user.getRole())) {
-            links.add(new SideNavLinks("/receptionist/dashboard", "Receptionist Dashboard"));
-        }
-        return links;
     }
 
     private User getUserFromSession(Request req) {
@@ -51,7 +43,7 @@ public class ReceptionistViewController {
     private void injectCommonData(Request req, HashMap<String, Object> model) {
         User user = getUserFromSession(req);
         model.put("user", user);
-        model.put("navLinks", getReceptionistLinks(user));
+        model.put("navLinks", NavLinkUtil.getNavLinks(user.getRole()));
         addPopupFromSession(req, model);
     }
 

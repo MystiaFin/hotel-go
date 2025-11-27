@@ -13,7 +13,7 @@
         <div th:replace="~{components/heading-main :: headingMain('Booking History')}"></div>
         <div th:if="${#lists.isEmpty(allBookings)}">
             <p class="no-bookings-active">
-                No bookings found for <b><span th:text="${user.nama}"></span></b> at the moment
+                No bookings found for <b><span th:text="${user.name}"></span></b> at the moment
             </p>
         </div>
 
@@ -60,7 +60,7 @@
             function confirmCancel(id) {
                 Swal.fire({
                     title: "Cancel Booking?",
-                    text: "This booking will be canceled and cannot be undone.",
+                    text: "This booking will be canceled and cannot be undone",
                     confirmButtonText: "Yes",
                     cancelButtonText: "No",
                     showCancelButton: true,

@@ -18,8 +18,8 @@ public class ApiRoutes {
             post("/profile/update", authController::updateProfile);
 		});
         path("/api/hotel", () -> {
-            post("", hotelController::getHotels);
-            post("/:id", hotelController::getRoomsByHotelId);
+            get("", hotelController::getHotels);
+            get("/:id", hotelController::getRoomsByHotelId);
         });
         path("/api/booking", () -> {
             post("/create", bookingController::createBooking);
