@@ -75,4 +75,8 @@ public class BookingService {
     public int getSearchBookingsCount(String keyword) {
         return repository.countSearchBookings(keyword);
     }
+
+    public List<BookedHistory> getRecentBookings(int limit) {
+        return repository.findRecentBookings(limit);
+    }
 }

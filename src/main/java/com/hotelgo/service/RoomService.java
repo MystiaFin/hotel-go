@@ -28,4 +28,8 @@ public class RoomService {
     public boolean deleteRoom(Long id) {
         return roomRepository.deleteRoom(id);
     }
+
+    public List<HotelRoom> findAllRooms() {
+        return roomRepository.findAllRooms();
+    }
 }

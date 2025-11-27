@@ -5,9 +5,11 @@ import static com.hotelgo.util.PopupUtil.addPopupFromSession;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
+import com.hotelgo.model.BookedHistory;
 import com.hotelgo.model.Hotel;
 import com.hotelgo.model.HotelRoom;
 import com.hotelgo.model.User;
+import com.hotelgo.service.BookingService;
 import com.hotelgo.service.HotelService;
 import com.hotelgo.service.RoomService;
 import com.hotelgo.service.UserService;
@@ -23,20 +25,27 @@ public class AdminViewController {
     private final HotelService hotelService;
     private final RoomService roomService;
     private final UserService userService;
+    private final BookingService bookingService;
 
 	public AdminViewController() {
         this.hotelService = new HotelService();
         this.roomService = new RoomService();
         this.userService = new UserService();
+        this.bookingService = new BookingService();
     }
 
 	public ModelAndView adminDashboard(Request req, Response res) {
 		List<Hotel> hotels = hotelService.findAllHotels();
+        List<HotelRoom> rooms = roomService.findAllRooms();
+         List<BookedHistory> recentBookings = bookingService.getBookingsPaginated(1, 8);
 		HashMap<String, Object> model = new HashMap<>();
 		injectAdminData(req, model);
 		model.put("title", "Admin Dashboard");
 		model.put("currentpath", req.pathInfo());
 		model.put("hotels", hotels);
+        model.put("totalHotels", hotels.size());
+        model.put("totalRooms", rooms.size());
+        model.put("recentBookings", recentBookings);
 
 		return new ModelAndView(model, "pages/admin/dashboard");
 	}
