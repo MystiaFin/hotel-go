@@ -67,4 +67,11 @@ public class RoomRepository {
             return deleted > 0;
         }
     }
+
+    public List<HotelRoom> findAllRooms() {
+        String sql = "SELECT id, hotel_id AS hotelId, room_number AS roomNumber, price FROM hotel_rooms";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql).executeAndFetch(HotelRoom.class);
+        }
+    }
 }

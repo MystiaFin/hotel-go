@@ -169,4 +169,21 @@ public class BookingRepository {
                     .executeScalar(Integer.class);
         }
     }
+
+    public List<BookedHistory> findRecentBookings(int limit) {
+        String sql = "SELECT b.id, b.room_id AS roomId, b.user_id AS userId, u.name AS userName, " +
+                    "b.booked_status AS bookedStatus, b.checkin_date AS checkinDate, b.checkout_date AS checkoutDate, " +
+                    "r.room_number AS roomNumber, r.price AS roomPrice, h.name AS hotelName " +
+                    "FROM booked_histories b " +
+                    "JOIN users u ON b.user_id = u.id " +
+                    "JOIN hotel_rooms r ON b.room_id = r.id " +
+                    "JOIN hotels h ON r.hotel_id = h.id " +
+                    "ORDER BY b.id DESC " +
+                    "LIMIT :limit";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("limit", limit)
+                    .executeAndFetch(BookedHistory.class);
+        }
+    }
 }

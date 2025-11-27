@@ -5,6 +5,55 @@
 <body>
 	<div layout:fragment="content">
 		<h1 class="page-title">Admin Dashboard</h1>
+
+		<div class="admin-dashboard-left">
+        	<div class="admin-stats-grid">
+            	<div class="admin-stats-card">
+                	<h3>Total Hotels</h3>
+                	<p th:text="${totalHotels}">0</p>
+            	</div>
+
+            	<div class="admin-stats-card">
+                	<h3>Total Rooms</h3>
+                	<p th:text="${totalRooms}">0</p>
+            	</div>
+        	</div>
+		</div>
+
+		<div class="admin-recent-card">
+			<table class="admin-table">
+    			<thead>
+        			<tr>
+            			<th>ID</th>
+            			<th>Guest</th>
+            			<th>Hotel</th>
+            			<th>Room</th>
+            			<th>Price</th>
+            			<th>Status</th>
+        			</tr>
+    			</thead>
+    			<tbody>
+        			<tr th:each="booking : ${recentBookings}">
+            			<td th:text="${booking.id}"></td>
+            			<td th:text="${booking.userName}"></td>
+            			<td th:text="${booking.hotelName}"></td>
+            			<td th:text="${booking.roomNumber}"></td>
+            			<td th:text="'Rp ' + ${booking.roomPrice}"></td>
+            			<td>
+                			<span th:text="${booking.bookedStatus}"
+								  th:class="'badge badge-' + ${booking.bookedStatus.toLowerCase()}">
+							</span>
+            			</td>
+        			</tr>
+				
+					<tr th:if="${#lists.isEmpty(recentBookings)}">
+            			<td colspan="6" class="text-muted-row">
+                			No booking records found
+            			</td>
+        			</tr>
+    			</tbody>
+			</table>
+		</div>
 	</div>
 </body>
 </html>
